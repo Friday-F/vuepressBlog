@@ -7,7 +7,7 @@
             <h1>Crayon</h1>
             <p class="description">I hope that daily learning can make me look farther</p>
         </div>
-        <p class="action"><a href="/interview/JavaScript/prototype" class="nav-link action-button">让我们开始吧</a></p>
+        <p class="action"><a href="/interview/javascript/prototype" class="nav-link action-button">让我们开始吧</a></p>
         <div class="vue-press">
             <ul class="list">
                 <li class="item">
