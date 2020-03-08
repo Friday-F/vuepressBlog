@@ -9,6 +9,7 @@ yarn-error.log*
 selenium-debug.log
 deploy.sh
 /docs/.vuepress/dist
+yarn.lock
 
 # Editor directories and files
 .idea

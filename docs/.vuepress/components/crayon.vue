@@ -4,7 +4,7 @@
             <img src="../public/assets/img/logo.png" alt="" class="pic">
         </div>
         <div class="title">
-            <h1>Crayon</h1>
+            <h1>Crayon Shin-chan</h1>
             <p class="description">I hope that daily learning can make me look farther</p>
         </div>
         <p class="action"><a href="/interview/javascript/prototype" class="nav-link action-button">让我们开始吧</a></p>
