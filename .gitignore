@@ -8,6 +8,7 @@ yarn-error.log*
 /test/e2e/reports/
 selenium-debug.log
 deploy.sh
+/docs/.vuepress/dist
 
 # Editor directories and files
 .idea
