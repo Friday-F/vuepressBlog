@@ -1,5 +1,5 @@
 
-## 原型继承
+## 1.原型继承
 
 ```js
 function Father(name,age){
@@ -16,7 +16,7 @@ Son.prototype = new Father('小明','18','男')
 let s1 = new Son()
 console.log(s1.say())
 ```
-## call,apply继承
+## 2.call,apply继承
 
 ```js
 function Father(name,age){
@@ -33,7 +33,7 @@ let s1 = new Son('小红','18')
 //复用不了原型上的方法
 console.log(s1.say())
 ```
-## 组合继承
+## 3.组合继承
 ```js
 function Father(name,age){
     this.name = name;
@@ -49,7 +49,7 @@ Son.prototype = new Father()
 let s1 = new Son('小明','18')
 console.log(s1.say())
 ```
-## 原型式继承
+## 4.原型式继承
 ```js
 let Father = {
     name:'小明',
@@ -60,7 +60,7 @@ s1.name = '小红'
 console.log(s1.__proto__ === father) true
 console.log(s1.say())
 ```
-## 寄生式继承
+## 5.寄生式继承
 ```js
 function object(o){
     function F(){}
@@ -81,7 +81,7 @@ let s1 = {
 let s2 = Father(s1)
 console.log(s2.say())
 ```
-## class继承
+## 6.class继承
 ```js
  class Father{
     constructor(name,age){
