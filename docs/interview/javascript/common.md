@@ -14,7 +14,35 @@ arr instanceof Array
 let arr = [];
 Object.prototype.toString.call(arr) === '[object Array]'
 ```
-## 2.常规判断
+## 2.伪数组转数组
+```js
+1. Array.prototype.slice.call(arr)
+2. Array.prototype.concat.apply([],arr)
+3. [...arr]
+4. Array.from(arr)
+```
+## 3.二维数组
+```js
+let arr = [1,[2,3],4,[5,6]];
+
+1.普通循环 
+function flatten(origin){
+    let result = [];
+    for(let i = 0; i< origin.length; i++) {
+        let item = origin[i];
+        if(Array.isArray(item)) {
+            result = result.concat(flatten(item))
+        } else {
+            result.push(item);
+        }
+    }
+    return result;
+}
+flatten(array)
+2..flat()
+let result = arr.flat();
+```
+## 4.常规判断
 ```js
 console.log(undefined == null) //true
 console.log(undefined === null) //false
@@ -30,7 +58,7 @@ console.log(NaN == NaN) //false
 console.log([] == false) //true
 console.log([] === false) //false
 ```
-## 3.驼峰命名
+## 5.驼峰命名
 ```js
 let str = 'get-element-by-id';
 function fn(str){
@@ -42,7 +70,7 @@ function fn(str){
 }
 fn(str)
 ```
-## 4.解析url
+## 6.解析url
 ```js
 let url = 'http://www.baidu.com?a=1&b=2&c=3';
 function fn(url){
@@ -60,7 +88,7 @@ function fn(url){
 }
 fn(url)
 ```
-## 5.判断字符串出现最多的次数 
+## 7.判断字符串出现最多的次数 
 ```js
 let str = 'aabbbccdddeeee';
 //循环
@@ -85,7 +113,7 @@ let map = str.split('').reduce((t,v)=>{
     return t
 },{})
 ```
-## 6.数组去重
+## 8.数组去重
 ```js
 let arr = [1,2,2,3,4,5,3,1];
 function fn(arr){
@@ -102,7 +130,7 @@ fn(arr)
 //new Set()
 let newArray = [...new Set(arr)]
 ```
-## 7.原生AJAX
+## 9.原生AJAX
 ```js
     function ajax(obj = {}){
         let option = {
@@ -138,7 +166,7 @@ let newArray = [...new Set(arr)]
         }   
     }    
 ```
-## 8.jQuery内部封装原理
+## 10.jQuery内部封装原理
 ::: tip jQuery内部封装原理
 1.为了防止变量污染，将jQuert代码放在一个自调用函数中<br>
 2.平时使用的$是jQuer对外暴露的一个工厂函数<br>
