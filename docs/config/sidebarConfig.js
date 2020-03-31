@@ -11,5 +11,23 @@ module.exports = {
                 ['/interview/javascript/prototype','5.原型链']
             ]
         },
+        {
+            title:"webpack",
+            collapsable: true,
+            children:[
+                ['/interview/webpack/init', '1.初始化'],
+                ['/interview/webpack/base', '2.基本配置'],
+                ['/interview/webpack/optimization', '3.优化'],
+            ]
+        }
+    ],
+    '/accumulate':[
+        {
+            title: 'Accumulate',
+            collapsable: true,
+            children:[
+                ['/accumulate/miscellaneous/sentence', '1.杂七']
+            ]
+        }
     ]
 }
