@@ -1,2 +1,3 @@
-
-<crayon />
+---
+layout: HomeLayout
+---

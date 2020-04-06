@@ -11,7 +11,7 @@ module.exports = {
       lineNumbers: false // 代码块显示行号
     },
     themeConfig: {
-        lastUpdated: 'Last Updated', //最后更新时间
+        // lastUpdated: 'Last Updated', //最后更新时间
         logo:'',
         nav:navConfig,
         sidebar: sidebarConfig, // 侧边栏配置
