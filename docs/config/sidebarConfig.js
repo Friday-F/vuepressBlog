@@ -19,6 +19,13 @@ module.exports = {
                 ['/interview/webpack/base', '2.基本配置'],
                 ['/interview/webpack/optimization', '3.优化'],
             ]
+        },
+        {
+            title:"vue",
+            collapsable: true,
+            children:[
+                ['/interview/vue/init', '1.面试']
+            ]
         }
     ],
     '/accumulate':[
