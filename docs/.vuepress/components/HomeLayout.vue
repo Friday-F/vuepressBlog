@@ -55,6 +55,7 @@ export default {
         getPicUrl(){
             axios.get('https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture')
                 .then(url=>{
+                    console.log(url)
                     if(url.status === 200){
                         this.picUrl = url.config.url;
                        
@@ -99,7 +100,7 @@ export default {
             .pic{
                 width: 120px;
                 height:120px;
-                // border:1px solid #000;
+                border:1px solid #000;
                 border-radius: 50%;
                 // margin:3rem auto 1.5rem;
             }
@@ -126,7 +127,7 @@ export default {
             margin-top: 0.6rem;
             animation: myfirst 4s;
             .description{
-                max-width: 20rem;
+                max-width: 24rem;
                 font-size: 1.2rem;
                 line-height: 1.8;
                 color: #fff;
@@ -141,14 +142,15 @@ export default {
                 .item{
                     text-align: center;
                     .link{
-                        padding:8px 22px;
+                        padding:0.4rem 0.8rem;
                         font-weight: bold;
                         border:1px solid #fff;
                         border-radius: 22px;
                         font-size: 0.9em;
-                        margin:0 0.2rem;
+                        // margin:0 0.02rem;
                         color:#fff;
                         display: block;
+                        white-space:nowrap;
                     }
                     
                 }
