@@ -26,6 +26,13 @@ module.exports = {
             children:[
                 ['/interview/vue/init', '1.面试']
             ]
+        },
+        {
+            title:"yiqing",
+            collapsable: true,
+            children:[
+                ['/interview/pneumonia/init', '疫情概览']
+            ]
         }
     ],
     '/accumulate':[

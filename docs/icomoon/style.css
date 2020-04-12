@@ -1,0 +1,68 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?ut5a7c');
+  src:  url('fonts/icomoon.eot?ut5a7c#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?ut5a7c') format('truetype'),
+    url('fonts/icomoon.woff?ut5a7c') format('woff'),
+    url('fonts/icomoon.svg?ut5a7c#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-message-error:before {
+  content: "\e901";
+}
+.icon-message-warning:before {
+  content: "\e902";
+}
+.icon-message-info .path1:before {
+  content: "\e903";
+  color: rgb(80, 180, 107);
+}
+.icon-message-info .path2:before {
+  content: "\e904";
+  margin-left: -1em;
+  color: rgb(80, 180, 107);
+}
+.icon-message-info .path3:before {
+  content: "\e905";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-message-success .path1:before {
+  content: "\e906";
+  color: rgb(69, 235, 66);
+}
+.icon-message-success .path2:before {
+  content: "\e907";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-arrow-up:before {
+  content: "\e900";
+}
+.icon-doubt:before {
+  content: "\e908";
+}
+.icon-doubt-bg:before {
+  content: "\e909";
+}
+.icon-upload:before {
+  content: "\e9c8";
+}

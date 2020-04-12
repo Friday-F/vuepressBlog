@@ -1,0 +1,229 @@
+* {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.content {
+  background: #10aeb5;
+}
+.content .data {
+  width: 768px;
+  margin: 0 auto;
+  padding: 30px 0;
+  background: url('images/bg.png') no-repeat top right;
+  background-size: 695px 189px;
+}
+.content .data .header .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.content .data .header .top .home {
+  height: 28px;
+  font-size: 14px;
+  border-radius: 14px;
+  padding: 0 0.75rem 0 0.625rem;
+  background: #e5feff;
+}
+.content .data .header .top .home a {
+  color: #104345;
+  line-height: 28px;
+  display: block;
+  text-align: center;
+}
+.content .data .header .logo {
+  width: 60px;
+  height: auto;
+  border-radius: 50%;
+}
+.content .data .header .title {
+  color: #c4faff;
+  font-size: 0.875rem;
+}
+.content .data .header .presentation {
+  font-size: 2rem;
+  margin: 0.4rem 0;
+  color: #fff;
+}
+.content .data .information {
+  width: 100%;
+  background: #fff;
+  border-radius: 4px;
+  padding: 0.917rem 1.0625rem 1.875rem;
+}
+.content .data .information .information-header {
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid #f5f6f7;
+}
+.content .data .information .information-header .nav {
+  display: flex;
+}
+.content .data .information .information-header .nav .item {
+  flex: 1;
+  text-align: center;
+}
+.content .data .information .information-header .nav .item .link {
+  width: 40%;
+  height: 40px;
+  line-height: 37px;
+  color: #000;
+  box-sizing: border-box;
+  font-size: 18px;
+}
+.content .data .information .information-header .nav .item .link.active {
+  color: #10aeb5;
+  border-bottom: 3px solid #10aeb5;
+  font-weight: bold;
+}
+.content .data .information .domestic .domestic-data .list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.content .data .information .domestic .domestic-data .list .item {
+  width: 33.3333%;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+.content .data .information .domestic .domestic-data .list .item .title {
+  color: #333;
+  font-size: 1rem;
+}
+.content .data .information .domestic .domestic-data .list .item .title .tit {
+  position: relative;
+  display: inline-block;
+}
+.content .data .information .domestic .domestic-data .list .item .title .doubt {
+  color: #999;
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translate(0, -50%);
+}
+.content .data .information .domestic .domestic-data .list .item .number {
+  display: flex;
+  justify-items: center;
+  flex-direction: column;
+}
+.content .data .information .domestic .domestic-data .list .item .number .today {
+  font-size: 1.3125rem;
+  font-weight: bold;
+  color: #ff6a57;
+}
+.content .data .information .domestic .domestic-data .list .item .number .yesterday {
+  font-size: 0.6875rem;
+  color: #999;
+}
+.content .data .information .domestic .domestic-data .list .item .number .yesterday .currentConfirmedIncr {
+  color: #ff6a57;
+  vertical-align: text-bottom;
+}
+.content .data .information .whole-country .whole-country-list .header-title .header-list {
+  display: flex;
+  margin: 0.6rem 0;
+  font-weight: 700;
+  font-size: 0.75;
+  color: #555;
+}
+.content .data .information .whole-country .whole-country-list .header-title .header-list .item {
+  flex: 1;
+  text-align: center;
+}
+.content .data .information .whole-country .whole-country-list .list .item {
+  margin-bottom: 0.2rem;
+  background: #f5f6f7;
+}
+.content .data .information .whole-country .whole-country-list .list .item .city-list {
+  width: 100%;
+  display: flex;
+}
+.content .data .information .whole-country .whole-country-list .list .item .city-list-child {
+  background: #fff;
+}
+.content .data .information .whole-country .whole-country-list .list .item .city-list-child .item {
+  display: flex;
+  height: 2.4rem;
+  align-items: center;
+  border-bottom: 1px solid #f5f5f5;
+  padding-left: 2rem;
+  background: #fff;
+  box-sizing: border-box;
+}
+.content .data .information .whole-country .whole-country-list .list .item .city-list-child .item .item-data-child {
+  flex: 1;
+  text-align: center;
+  background: #fff;
+}
+.content .data .information .whole-country .whole-country-list .list .item .city-list-child .item .item-data-child:first-child {
+  text-align: left;
+  color: #00bec7;
+  font-weight: 700;
+}
+.content .data .information .whole-country .whole-country-list .list .item .item-data {
+  flex: 1;
+  display: inline-block;
+  text-align: center;
+  border-right: 1px solid #fff;
+  box-sizing: border-box;
+  font-size: 0.8125rem;
+  color: #4d5054;
+  padding: 0.6rem 0;
+  position: relative;
+}
+.content .data .information .whole-country .whole-country-list .list .item .item-data .up {
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  margin-top: -9px;
+  font-weight: 700;
+  font-size: 20px;
+  vertical-align: bottom;
+  transform-origin: center;
+  transition: all 0.4;
+}
+.content .data .information .whole-country .whole-country-list .list .item .item-data .up.down {
+  transition: all 0.4;
+  transform: rotate(180deg);
+}
+.content .data .information .whole-country .whole-country-list .list .item .item-data:first-child {
+  box-sizing: border-box;
+  background: #00bec9;
+  color: #fff;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  font-weight: 700;
+  text-align: left;
+  padding-left: 2rem;
+}
+.content .data .information .whole-country .whole-country-list .list .item .item-data:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.content .data .information .news .news-list .list .pubDate {
+  color: #999;
+  font-size: 0.875rem;
+  line-height: 0.875rem;
+}
+.content .data .information .news .news-list .list .link {
+  margin: 0.625rem 0 1.25rem;
+  display: block;
+  padding: 0.5rem 0.625rem;
+  line-height: 1.625rem;
+  background: #f5f6f7;
+  border-radius: 0.27rem;
+  font-weight: 700;
+  color: #4d5054;
+}
+.content .data .information .model-header {
+  margin-top: 0.9375rem;
+  margin-bottom: 1.875rem;
+}
+.content .data .information .model-header .model-header-title {
+  font-size: 1rem;
+  color: #000;
+  margin-bottom: 0.625rem;
+}
+.content .data .information .model-header .update-time {
+  color: #999;
+}

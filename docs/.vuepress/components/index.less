@@ -1,0 +1,258 @@
+*{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.content{
+    background: #10aeb5;
+    .data{
+        width: 768px;
+        margin:0 auto;
+        padding:30px 0;
+        background: url('./images/bg.png') no-repeat top right;
+        background-size: 695px 189px;
+        .header{
+            .top{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+                .home{
+                    height: 28px;
+                    font-size: 14px;
+                    border-radius: 14px;
+                    padding:0 .75rem 0 .625rem;
+                    background:#e5feff; 
+                    a{
+                        color:#104345;
+                        line-height: 28px;
+                        display: block;
+                        text-align: center;
+                    }
+                }
+            }
+            .logo{
+                width: 60px;
+                height: auto;
+                border-radius: 50%;
+            }
+            .title{
+                color:#c4faff;
+                font-size: .875rem;
+            }
+            .presentation{
+                font-size: 2rem;
+                margin:0.4rem 0;
+                color:#fff;
+                // text-shadow: 1px 2px 10px #afdade;
+            }
+        }
+        .information{
+            width: 100%;
+            background: #fff;
+            border-radius: 4px;
+            padding:.917rem 1.0625rem 1.875rem;
+            .information-header{
+                width: 100%;
+                height: 40px;
+                border-bottom: 1px solid #f5f6f7;
+                .nav{
+                    display: flex;
+                    .item{
+                        flex:1;
+                        text-align: center;
+                        .link{
+                            width: 40%;
+                            height: 40px;
+                            line-height: 37px;
+                            color:#000;
+                            box-sizing: border-box;
+                            font-size: 18px;
+                            &.active{
+                                color:#10aeb5;
+                                border-bottom: 3px solid #10aeb5;
+                                font-weight: bold;
+                            }
+
+                        }
+                    }
+                }
+            }
+            .domestic{
+                .domestic-data{
+                    .list{
+                        display: flex;
+                        flex-wrap: wrap;
+                        .item{
+                            width: 33.3333%;
+                            text-align: center;
+                            margin-bottom:1.25rem;
+                            .title{
+                                color:#333;
+                                font-size: 1rem;
+                                .tit{
+                                    position: relative;
+                                    display: inline-block;
+                                }
+                                .doubt{
+                                    color:#999;
+                                    position: absolute;
+                                    top:50%;
+                                    right:-20px;
+                                    transform: translate(0,-50%);
+                                }
+                            }
+                            .number{
+                                display: flex;
+                                justify-items: center;
+                                flex-direction: column;
+                                .today{
+                                    font-size: 1.3125rem;
+                                    font-weight: bold;
+                                    color:#ff6a57;
+                                }
+                                .yesterday{
+                                    font-size: .6875rem;
+                                    color:#999;
+                                    .currentConfirmedIncr{
+                                        color:#ff6a57;
+                                        vertical-align: text-bottom;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .whole-country{
+                .whole-country-list{
+                    .header-title{
+                        .header-list{
+                            display: flex;
+                            margin:0.6rem 0;
+                            font-weight: 700;
+                            font-size: 0.75;
+                            color:#555;
+                            .item{
+                                flex:1;
+                                text-align: center;
+                            }
+                        }
+                    }
+                    .list{
+                        .item{
+                            margin-bottom:0.2rem;
+                            background: #f5f6f7;
+                            // height: 2rem;
+                            // line-height: 2rem;
+                            .city-list{
+                                width: 100%;
+                                display: flex;
+                            }
+                            .city-list-child{
+                                background: #fff;
+                                .item{
+                                    display: flex;
+                                    height: 2.4rem;
+                                    align-items: center;
+                                    border-bottom:1px solid #f5f5f5;
+                                    padding-left:2rem;
+                                    background: #fff;
+                                    box-sizing: border-box;
+                                    .item-data-child{
+                                        flex:1;
+                                        text-align: center;
+                                        background: #fff;
+                                        &:first-child{
+                                            text-align: left;
+                                            color:#00bec7;
+                                            font-weight: 700;
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                            .item-data{
+                                flex:1;
+                                display: inline-block;
+                                text-align: center;
+                                border-right:1px solid #fff;
+                                box-sizing: border-box;
+                                font-size: .8125rem;
+                                color:#4d5054;
+                                padding:0.6rem 0;
+                                position: relative;
+                                .up{
+                                    position: absolute;
+                                    top:50%;
+                                    left:6px;
+                                    margin-top:-9px;
+                                    font-weight: 700;
+                                    font-size: 20px;
+                                    vertical-align: bottom;
+                                    transform-origin:center;
+                                    transition: all 0.4;  
+                                    &.down{
+                                        transition: all 0.4;  
+                                        transform: rotate(180deg);
+                                    }
+                                }
+                                &:first-child{
+                                    box-sizing: border-box;
+                                    background: #00bec9;
+                                    color:#fff;
+                                    border-top-left-radius:5px;
+                                    border-bottom-left-radius:5px;
+                                    font-weight: 700;
+                                    text-align: left;
+                                    padding-left:2rem;
+                                    
+                                }
+                                &:last-child{
+                                    border-top-right-radius:5px;
+                                    border-bottom-right-radius:5px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .news{
+                .news-list{
+                    .list{
+                        .item{
+                            
+                        }
+                        .pubDate{
+                            color: #999;
+                            font-size: .875rem;
+                            line-height: .875rem;
+                        }
+                        .link{
+                            margin:.625rem 0 1.25rem;
+                            display: block;
+                            padding: .5rem .625rem;
+                            line-height: 1.625rem;
+                            background: #f5f6f7;
+                            border-radius: .27rem;
+                            font-weight: 700;
+                            color: #4d5054;
+                        }
+                    }
+                }
+            }
+            .model-header{
+                margin-top:.9375rem;
+                margin-bottom: 1.875rem;
+                .model-header-title{
+                    font-size: 1rem;
+                    color:#000;
+                    margin-bottom: .625rem;
+                }
+                .update-time{
+                    color:#999;
+                }
+            }
+        }
+    }
+}
