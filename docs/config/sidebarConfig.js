@@ -24,7 +24,7 @@ module.exports = {
             title:"vue",
             collapsable: true,
             children:[
-                ['/interview/vue/init', '1.面试']
+                ['/interview/vue/init', '基础']
             ]
         },
         {

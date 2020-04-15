@@ -1,6 +1,6 @@
 <template>
     <div class="home-latout" :style="`backgroundImage:url(${picUrl})`">
-        <div class="crayon">
+        <div class="crayon" v-show="isLoading === false">
             <div class="logo">
                 <img src="../public/assets/img/logo.jpeg" alt="" class="pic">
             </div>
@@ -24,12 +24,19 @@
                 </ul>
             </div>
         </div>
+        <div v-show="isLoading">
+            <Loading></Loading>
+        </div>
     </div>
 </template>
 <script>
 import axios from 'axios'
+import Loading from './loading/index'
 export default {
     name:'crayon',
+    components:{
+        Loading
+    },
     data(){
         return{
             info:{
@@ -37,30 +44,45 @@ export default {
                 from:''
             },
             picUrl:"",
+            isLoading:true
         }
     },
     created(){
-        this.getInfo()
-        this.getPicUrl()
+        // this.getInfo()
+        // this.getPicUrl()
+        this.getData();
     },
     methods:{
-        getInfo(){
-           axios.get('https://v1.hitokoto.cn/')
-            .then(info=>{
-                if(info.status === 200){
-                    this.info = Object.assign({},this.info,info.data)
-                }
-            })
-        },
-        getPicUrl(){
-            axios.get('https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture')
-                .then(url=>{
-                    console.log(url)
+        getData(){
+            axios.all([this.getInfo(),this.getPicUrl()])
+                .then(axios.spread((info,url)=>{
+                    if(info.status === 200){
+                        this.info = Object.assign({},this.info,info.data)
+                    }
                     if(url.status === 200){
                         this.picUrl = url.config.url;
-                       
                     }
-                })
+                    this.isLoading = false;
+                }))
+        },
+        
+        getInfo(){
+           return axios.get('https://v1.hitokoto.cn/')
+            // .then(info=>{
+            //     if(info.status === 200){
+            //         this.info = Object.assign({},this.info,info.data)
+            //     }
+            // })
+        },
+        getPicUrl(){
+            return axios.get('https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture')
+                // .then(url=>{
+                //     console.log(url)
+                //     if(url.status === 200){
+                //         this.picUrl = url.config.url;
+                       
+                //     }
+                // })
         }
         
     }
