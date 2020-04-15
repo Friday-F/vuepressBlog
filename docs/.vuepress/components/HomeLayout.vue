@@ -31,7 +31,7 @@
 </template>
 <script>
 import axios from 'axios'
-import Loading from './loading/index'
+import Loading from './loading-transtion'
 export default {
     name:'crayon',
     components:{
@@ -109,7 +109,7 @@ export default {
         background-position:center;
         background-size:cover;
         background-repeat:no-repeat;
-        background-color: rgba(0, 0,0,.3);    
+        // background-color: rgba(0, 0,0,.3);    
     }
     .crayon{
         position: absolute;

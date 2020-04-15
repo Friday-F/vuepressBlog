@@ -1,29 +1,39 @@
 <template>
-    <div style="text-align:center;clear:both;"><script src="/follow.js" type="text/javascript"></script>
-</div>
-  <div class='base'>
-  <div class='cube'></div>
-  <div class='cube'></div>
-  <div class='cube'></div>
-  <div class='cube'></div>
-  <div class='cube'></div>
-  <div class='cube'></div>
-  <div class='cube'></div>
-  <div class='cube'></div>
-  <div class='cube'></div>
+    <div class="spinner">
+    <div class="spinner-container container1">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </div>
+    <div class="spinner-container container2">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </div>
+    <div class="spinner-container container3">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
+        <div class="circle4"></div>
+    </div>
 </div>
 </template>
 <style scoped>
     .spinner {
   margin: 100px auto;
-  width: 40px;
-  height: 40px;
-  position: relative;
+  width: 60px;
+  height: 60px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  margin:-30px -30px;
 }
  
 .container1 > div, .container2 > div, .container3 > div {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
   background-color: #00B07C;
  
   border-radius: 100%;

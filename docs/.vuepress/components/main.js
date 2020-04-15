@@ -176,7 +176,10 @@ export default{
                         })
                         if(chinaList.length){
                             option.series.data = chinaList;
-                            this.myChart.setOption(option)
+                            this.$nextTick(()=>{
+                                this.myChart.setOption(option)
+                            })
+                            
                         }
                         
                     }
