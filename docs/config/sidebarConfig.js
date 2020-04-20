@@ -18,6 +18,7 @@ module.exports = {
                 ['/interview/webpack/init', '1.初始化'],
                 ['/interview/webpack/base', '2.基本配置'],
                 ['/interview/webpack/optimization', '3.优化'],
+                ['/interview/webpack/summary', '4.总结']
             ]
         },
         {
