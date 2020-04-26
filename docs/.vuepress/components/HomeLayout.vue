@@ -16,10 +16,10 @@
                     <a class="link" href="/interview/javascript/extend">面试</a>
                     </li>
                     <li class="item">
-                    <a class="link" href="/accumulate/miscellaneous/sentence">杂七</a>
+                    <a class="link" href="/cleanheart/miscellaneous/sentence">杂七</a>
                     </li>
                     <li class="item">
-                    <a class="link" href="https://github.com/Crayon-F">GitHub</a>
+                    <a class="link" target="_blank" href="https://github.com/Crayon-F">GitHub</a>
                     </li>
                 </ul>
             </div>

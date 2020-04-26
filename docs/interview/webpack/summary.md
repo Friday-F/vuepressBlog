@@ -95,21 +95,21 @@ webpack中最重要的类Compiler和Compilation都继承自Tapable,也拥有这�
 1. Compiler 全局唯一，且从启动生存到结束；
 2. Compilation 对应每次编译，每轮编译循环均会重新创建；
 ### 2.常用的plugin
-UglifyJsPlugin: 压缩、混淆代码；
-CommonsChunkPlugin: 代码分割；
-ProvidePlugin: 自动加载模块；
-html-webpack-plugin: 加载 html 文件，并引入 css / js 文件；
-extract-text-webpack-plugin / mini-css-extract-plugin: 抽离样式，生成 css 文件；
-DefinePlugin: 定义全局变量；
-optimize-css-assets-webpack-plugin: CSS 代码去重；
-webpack-bundle-analyzer: 代码分析；
-compression-webpack-plugin: 使用 gzip 压缩 js 和 css；
-happypack: 使用多进程，加速代码构建；
-EnvironmentPlugin: 定义环境变量；
+- UglifyJsPlugin: 压缩、混淆代码；
+- CommonsChunkPlugin: 代码分割；
+- ProvidePlugin: 自动加载模块；
+- html-webpack-plugin: 加载 html 文件，并引入 css / js 文件；
+- extract-text-webpack-plugin / mini-css-extract-plugin: 抽离样式，生成 css 文件；
+- DefinePlugin: 定义全局变量；
+- optimize-css-assets-webpack-plugin: CSS 代码去重；
+- webpack-bundle-analyzer: 代码分析；
+- compression-webpack-plugin: 使用 gzip 压缩 js 和 css；
+- happypack: 使用多进程，加速代码构建；
+- EnvironmentPlugin: 定义环境变量；
 
 
-作者：郭东东
-链接：https://juejin.im/post/5cc26dfef265da037b611738
+作者：郭东东<br />
+链接：<a href='https://juejin.im/post/5cc26dfef265da037b611738' target="_blank">https://juejin.im/post/5cc26dfef265da037b611738</a>
 
 
 
