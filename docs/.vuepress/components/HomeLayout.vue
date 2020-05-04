@@ -13,10 +13,10 @@
                 <p class="description">{{info.hitokoto}}<br><strong> -「{{info.from}}」</strong></p>
                 <ul class="list">
                     <li class="item">
-                    <a class="link" href="/interview/javascript/extend">面试</a>
+                    <a class="link" href="/interview/javascript/extend">JavaScript</a>
                     </li>
                     <li class="item">
-                    <a class="link" href="/cleanheart/miscellaneous/sentence">杂七</a>
+                    <a class="link" href="/cleanheart/miscellaneous/sentence">杂六</a>
                     </li>
                     <li class="item">
                     <a class="link" target="_blank" href="https://github.com/Crayon-F">GitHub</a>
@@ -148,6 +148,7 @@ export default {
             padding: 0.6rem 0;
             margin-top: 0.6rem;
             animation: myfirst 4s;
+            min-width: 18rem;
             .description{
                 max-width: 24rem;
                 font-size: 1.2rem;

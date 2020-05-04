@@ -8,7 +8,8 @@ module.exports = {
                 ['/interview/javascript/common', '2.常见面试题'],
                 ['/interview/javascript/http', '3.Http'],
                 ['/interview/javascript/browser','4.浏览器'],
-                ['/interview/javascript/prototype','5.原型链']
+                ['/interview/javascript/prototype','5.原型链'],
+                ['/interview/javascript/promise','6.Promise']
             ]
         },
         {
