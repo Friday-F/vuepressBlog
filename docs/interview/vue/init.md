@@ -37,6 +37,55 @@ mode+view+viewmode 传统的前端会将数据手动渲染到页面上,`MVVM`模
 
 ## 5.computed的特点
 - 1.会有缓存，当依赖发生变化时，采取更新视图
+<br />
+<img src='./images/computed.png' />
+<br />
+```js
+function initComputed (vm: Component, computed: Object) {
+  const watchers = vm._computedWatchers = Object.create(null)
+  const isSSR = isServerRendering()
+  for (const key in computed) {
+    const userDef = computed[key]
+    const getter = typeof userDef === 'function' ? userDef : userDef.get
+    if (!isSSR) {
+      // create internal watcher for the computed property.
+      watchers[key] = new Watcher(
+        vm,
+        getter || noop,
+        noop,
+        computedWatcherOptions
+      )
+    }
+
+    // component-defined computed properties are already defined on the
+    // component prototype. We only need to define computed properties defined
+    // at instantiation here.
+    if (!(key in vm)) {
+      defineComputed(vm, key, userDef)
+    } else if (process.env.NODE_ENV !== 'production') {
+      if (key in vm.$data) {
+        warn(`The computed property "${key}" is already defined in data.`, vm)
+      } else if (vm.$options.props && key in vm.$options.props) {
+        warn(`The computed property "${key}" is already defined as a prop.`, vm)
+      }
+    }
+  }
+}
+function createComputedGetter (key) {
+  return function computedGetter () {
+    const watcher = this._computedWatchers && this._computedWatchers[key]
+    if (watcher) {
+      if (watcher.dirty) { // 如果依赖的值没发生变化,就不会重新求值
+        watcher.evaluate()
+      }
+      if (Dep.target) {
+        watcher.depend()
+      }
+      return watcher.value
+    }
+  }
+}
+```
 ## 6.computed和methods和watcher区别
 ### computed
 1. 简便逻辑操作，
@@ -45,7 +94,7 @@ mode+view+viewmode 传统的前端会将数据手动渲染到页面上,`MVVM`模
 4. 不便于操作异步
 5. compouted默认不会先执行
 6. computed 是计算一个新的属性，并将该属性挂载到 vm（Vue 实例）上
-7. computed 本质是一个惰性求值的观察者，具有缓存性，只有当依赖变化后，第一次访问 computed 属性，才会计算新的值
+7. computed 本质是一个**惰性求值的观察者**，具有缓存性，只有当依赖变化后，第一次访问 computed 属性，才会计算新的值
 8. computed 适用一个数据被多个数据影响
 
 ### methods：
@@ -55,11 +104,13 @@ mode+view+viewmode 传统的前端会将数据手动渲染到页面上,`MVVM`模
 ### watcher(一方改变，另一方跟着改变)
 1. 代码复用性高
 2. 便于处理异步
-3. 混合使用
-4. watch会先执行
-5. watch 是监听已经存在且已挂载到 vm 上的数据，所以用 watch 同样可以监听 computed 计算属性的变化（其它还有 data、props）
-6. watch 则是当数据发生变化便会调用执行函数
-7. watch 适用一个数据影响多个数据
+3. 高消耗性能的操作,限制我们执行该操作的频率，并在我们得到最终结果前，设置中间件
+4. 混合使用
+5. watch会先执行
+6. watch 是监听已经存在且已挂载到 vm 上的数据，所以用 watch 同样可以监听 computed 计算属性的变化（其它还有 data、props）
+7. watch 则是当数据发生变化便会调用执行函数
+8. watch 适用一个数据影响多个数据
+
 ## 7.生命周期
 ### 每个生命周期的用途
 - `beforeCreate`
@@ -156,3 +207,32 @@ mode+view+viewmode 传统的前端会将数据手动渲染到页面上,`MVVM`模
 2. 支持 `Composition API `
 3. `Vue3`中响应式数据原理改成`proxy`
 4. ` vdom`的对比算法更新，只更新`vdom`的绑定了动态数据的部分
+## 14.$router和route的区别
+1. $router是VueRouter的一个对象，通过Vue.use(VueRouter)和Vu构造函数得到一个router的实例对象，这个对象中是一个全局的对象，他包含了所有的路由，包含了许多关键的对象和属性。
+<br />
+<br />
+<img src='./images/router.png' />
+<br />
+### 以history对象来举例：
+
+- $router.push({path:'home'})，本质是向history栈中添加一个路由，在我们看来是切换路由，但本质是在添加一个history记录
+
+- $router.replace({path:'home'})，//替换路由，没有历史记录
+
+2. $route是一个跳转的路由对象，每一个路由都会有一个$route对象，是一个局部的对象，可以获取对应的name，path，params，query等
+<br />
+<br />
+<img src='./images/route.png' />
+<br />
+### 这两者不同的结构可以看出两者的区别，他们的一些属性是不同的。
+- $route.path 字符串，等于当前路由对象的路径，会被解析为绝对路径，如/home/ews
+
+- $route.params 对象，含路有种的动态片段和全匹配片段的键值对，不会拼接到路由的url后面
+
+- $route.query 对象，包含路由中查询参数的键值对。会拼接到路由url后面
+
+- $route.router 路由规则所属的路由器
+
+- $route.matchd 数组，包含当前匹配的路径中所包含的所有片段所对象的配置参数对象
+
+- $route.name 当前路由的名字，如果没有使用具体路径，则名字为空
