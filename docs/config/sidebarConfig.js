@@ -4,8 +4,8 @@ module.exports = {
             title: 'JavaScript',
             collapsable: true,
             children: [
-                ['/interview/javascript/extend', '1.继承'],
-                ['/interview/javascript/common', '2.常见面试题'],
+                ['/interview/javascript/common', '1.常见面试题'],
+                ['/interview/javascript/extend', '2.继承'],
                 ['/interview/javascript/http', '3.Http'],
                 ['/interview/javascript/browser','4.浏览器'],
                 ['/interview/javascript/prototype','5.原型链'],
@@ -29,13 +29,13 @@ module.exports = {
                 ['/interview/vue/init', '基础']
             ]
         },
-        {
-            title:"yiqing",
-            collapsable: true,
-            children:[
-                ['/interview/pneumonia/init', '疫情概览']
-            ]
-        }
+        // {
+        //     title:"yiqing",
+        //     collapsable: true,
+        //     children:[
+        //         ['/interview/pneumonia/init', '疫情概览']
+        //     ]
+        // }
     ],
     '/cleanheart':[
         {
