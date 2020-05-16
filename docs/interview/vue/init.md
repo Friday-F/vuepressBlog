@@ -26,6 +26,38 @@ mode+view+viewmode 传统的前端会将数据手动渲染到页面上,`MVVM`模
 <br />
 <img src='./images/object.png' />
 
+```js
+Object.defineProperty(obj, key, {
+    enumerable: true,
+    configurable: true,
+    get: function reactiveGetter () {
+      const value = getter ? getter.call(obj) : val
+      if (Dep.target) {
+        dep.depend() // ** 收集依赖 ** /
+        if (childOb) {
+          childOb.dep.depend()
+          if (Array.isArray(value)) {
+            dependArray(value)
+          }
+        }
+      }
+      return value
+    },
+    set: function reactiveSetter (newVal) {
+      const value = getter ? getter.call(obj) : val
+      if (newVal === value || (newVal !== newVal && value !== value)) {
+        return
+      }
+      if (process.env.NODE_ENV !== 'production' && customSetter) {
+        customSetter()
+      }
+      val = newVal
+      childOb = !shallow && observe(newVal)
+      dep.notify() /**通知相关依赖进行更新**/
+    }
+  })
+```
+
 ## 4.Vue中是如何检测数组变化?
 ::: tip Vue中是如何检测数组变化?
 1. 使用函数劫持的方式，重写了数组的方法
@@ -34,6 +66,43 @@ mode+view+viewmode 传统的前端会将数据手动渲染到页面上,`MVVM`模
 <br />
 <br />
 <img src='./images/array.png' />
+
+```js
+const arrayProto = Array.prototype
+export const arrayMethods = Object.create(arrayProto)
+const methodsToPatch = [
+  'push',
+  'pop',
+  'shift',
+  'unshift',
+  'splice',
+  'sort',
+  'reverse'
+]
+methodsToPatch.forEach(function (method) { // 重写原型方法
+  const original = arrayProto[method] // 调用原数组的方法
+  def(arrayMethods, method, function mutator (...args) {
+    const result = original.apply(this, args)
+    const ob = this.__ob__
+    let inserted
+    switch (method) {
+      case 'push':
+      case 'unshift':
+        inserted = args
+        break
+      case 'splice':
+        inserted = args.slice(2)
+        break
+    }
+    if (inserted) ob.observeArray(inserted)
+    // notify change
+    ob.dep.notify() // 当调用数组方法后，手动通知视图更新
+    return result
+  })
+})
+
+this.observeArray(value) // 进行深度监控
+```
 
 ## 5.computed的特点
 - 1.会有缓存，当依赖发生变化时，采取更新视图
@@ -88,28 +157,28 @@ function createComputedGetter (key) {
 ```
 ## 6.computed和methods和watcher区别
 ### computed
-1. 简便逻辑操作，
-2. 执行时，只执行直接调用的变量
-3. 有缓存，如果数据不进行更新，则不会从新触发计算，从而节约性能
-4. 不便于操作异步
-5. compouted默认不会先执行
-6. computed 是计算一个新的属性，并将该属性挂载到 vm（Vue 实例）上
-7. computed 本质是一个**惰性求值的观察者**，具有缓存性，只有当依赖变化后，第一次访问 computed 属性，才会计算新的值
-8. computed 适用一个数据被多个数据影响
+- 1. 简便逻辑操作，
+- 2. 执行时，只执行直接调用的变量
+- 3. 有缓存，如果数据不进行更新，则不会从新触发计算，从而节约性能
+- 4. 不便于操作异步
+- 5. compouted默认不会先执行
+- 6. computed 是计算一个新的属性，并将该属性挂载到 vm（Vue 实例）上
+- 7. computed 本质是一个**惰性求值的观察者**，具有缓存性，只有当依赖变化后，第一次访问 computed 属性，才会计算新的值
+- 8. computed 适用一个数据被多个数据影响
 
 ### methods：
-1. 无缓存，每次都会重新计算
-2. 视图更新时都会从新计算
+- 1. 无缓存，每次都会重新计算
+- 2. 视图更新时都会从新计算
 
 ### watcher(一方改变，另一方跟着改变)
-1. 代码复用性高
-2. 便于处理异步
-3. 高消耗性能的操作,限制我们执行该操作的频率，并在我们得到最终结果前，设置中间件
-4. 混合使用
-5. watch会先执行
-6. watch 是监听已经存在且已挂载到 vm 上的数据，所以用 watch 同样可以监听 computed 计算属性的变化（其它还有 data、props）
-7. watch 则是当数据发生变化便会调用执行函数
-8. watch 适用一个数据影响多个数据
+- 1. 代码复用性高
+- 2. 便于处理异步
+- 3. 高消耗性能的操作,限制我们执行该操作的频率，并在我们得到最终结果前，设置中间件
+- 4. 混合使用
+- 5. watch会先执行
+- 6. watch 是监听已经存在且已挂载到 vm 上的数据，所以用 watch 同样可以监听 computed 计算属性的变化（其它还有 data、props）
+- 7. watch 则是当数据发生变化便会调用执行函数
+- 8. watch 适用一个数据影响多个数据
 
 ## 7.生命周期
 ### 每个生命周期的用途
@@ -151,33 +220,88 @@ function createComputedGetter (key) {
 ## 8.v-show和v-if的区别
 - `v-show` 只是切换当前`dom`的显示或者隐藏
 - `v-if` 如果条件不成立不会渲染当前指令所在节点的`dom`元素
+```js
+const VueTemplateCompiler = require('vue-template-compiler');
+let r1 = VueTemplateCompiler.compile(`<div v-if="true"><span v-for="i in 3">hello</span></div>`);
+/**
+with(this) {
+    return (true) ? _c('div', _l((3), function (i) {
+        return _c('span', [_v("hello")])
+    }), 0) : _e()
+}
+*/
+```
+```js
+const VueTemplateCompiler = require('vue-template-compiler');
+let r2 = VueTemplateCompiler.compile(`<div v-show="true"></div>`);
+/**
+with(this) {
+    return _c('div', {
+        directives: [{
+            name: "show",
+            rawName: "v-show",
+            value: (true),
+            expression: "true"
+        }]
+    })
+}
+ */
+
+// v-show 操作的是样式  定义在platforms/web/runtime/directives/show.js
+bind (el: any, { value }: VNodeDirective, vnode: VNodeWithData) {
+    vnode = locateNode(vnode)
+    const transition = vnode.data && vnode.data.transition
+    const originalDisplay = el.__vOriginalDisplay =
+      el.style.display === 'none' ? '' : el.style.display
+    if (value && transition) {
+      vnode.data.show = true
+      enter(vnode, () => {
+        el.style.display = originalDisplay
+      })
+    } else {
+      el.style.display = value ? originalDisplay : 'none'
+    }
+}
+```
 ## 9.v-for和v-if
 `v-for`比`v-if`的优先级要高，如果连用，给每个属性都添加，造成资源浪费
+```js
+const VueTemplateCompiler = require('vue-template-compiler');
+let r1 = VueTemplateCompiler.compile(`<div v-if="false" v-for="i in 3">hello</div>`);
+/**
+with(this) {
+    return _l((3), function (i) {
+        return (false) ? _c('div', [_v("hello")]) : _e()
+    })
+}
+*/
+console.log(r1.render);
+```
 ## 10.组件中的 `data`为什么是一个函数? 
-1. 同一个组件被复用多次，会创建多个实例。
-2. 这些实例用的是同一个构造函数，如果`data`是一个对象的话。那么所有组件都共享了同一个对象
-3. 为了保证组件的数据独立性要求每个组件必须通过`data`函数返回一个对象作为组件的状态。
+- 1. 同一个组件被复用多次，会创建多个实例。
+- 2. 这些实例用的是同一个构造函数，如果`data`是一个对象的话。那么所有组件都共享了同一个对象
+- 3. 为了保证组件的数据独立性要求每个组件必须通过`data`函数返回一个对象作为组件的状态。
 ## 11.`Vue`组件如何通信?
-1. 父子间通信  父->子通过`props`、子-> 父`$on、$emit`
-2. 获取父子组件实例的方式`$parent、$children`
-3. 在父组件中提供数据子组件进行消费 `Provide、inject`
-4. `Ref`获取实例的方式调用组件的属性或者方法
-5. `Event Bus` 实现跨组件通信
-6. `Vuex `状态管理实现通信
+- 1. 父子间通信  父->子通过`props`、子-> 父`$on、$emit`
+- 2. 获取父子组件实例的方式`$parent、$children`
+- 3. 在父组件中提供数据子组件进行消费 `Provide、inject`
+- 4. `Ref`获取实例的方式调用组件的属性或者方法
+- 5. `Event Bus` 实现跨组件通信
+- 6. `Vuex `状态管理实现通信
 
 ## 12.`Vue`中常见性能优化
 
 ### 1.编码优化
-1. 不要将所有的数据都放在data中，data中的数据都会增加getter和setter，会收集对应的watcher 
-2. `vue` 在 v-for 时给每项元素绑定事件需要用事件代理
-3. `SPA`页面采用keep-alive缓存组件
-4. 拆分组件( 提高复用性、增加代码的可维护性,减少不必要的渲染  )
-5. `v-if` 当值为false时内部指令不会执行,具有阻断功能，很多情况下使用v-if替代v-show
-6. `key`保证唯一性 ( 默认`vue`会采用就地复用策略 )
-7. `Object.freeze` 冻结数据 
-8. 合理使用路由懒加载、异步组件
-9. 尽量采用runtime运行时版本
-10. 数据持久化的问题 （防抖、节流）
+- 1. 不要将所有的数据都放在data中，data中的数据都会增加getter和setter，会收集对应的watcher 
+- 2. `vue` 在 v-for 时给每项元素绑定事件需要用事件代理
+- 3. `SPA`页面采用keep-alive缓存组件
+- 4. 拆分组件( 提高复用性、增加代码的可维护性,减少不必要的渲染  )
+- 5. `v-if` 当值为false时内部指令不会执行,具有阻断功能，很多情况下使用v-if替代v-show
+- 6. `key`保证唯一性 ( 默认`vue`会采用就地复用策略 )
+- 7. `Object.freeze` 冻结数据 
+- 8. 合理使用路由懒加载、异步组件
+- 9. 尽量采用runtime运行时版本
+- 10. 数据持久化的问题 （防抖、节流）
 
 ### 2.`Vue`加载性能优化:
 1. 第三方模块按需导入 (`babel-plugin-component`) 
@@ -225,14 +349,14 @@ function createComputedGetter (key) {
 <img src='./images/route.png' />
 <br />
 ### 这两者不同的结构可以看出两者的区别，他们的一些属性是不同的。
-- $route.path 字符串，等于当前路由对象的路径，会被解析为绝对路径，如/home/ews
+- 1. $route.path 字符串，等于当前路由对象的路径，会被解析为绝对路径，如/home/ews
 
-- $route.params 对象，含路有种的动态片段和全匹配片段的键值对，不会拼接到路由的url后面
+- 2. $route.params 对象，含路有种的动态片段和全匹配片段的键值对，不会拼接到路由的url后面
 
-- $route.query 对象，包含路由中查询参数的键值对。会拼接到路由url后面
+- 3. $route.query 对象，包含路由中查询参数的键值对。会拼接到路由url后面
 
-- $route.router 路由规则所属的路由器
+- 4. $route.router 路由规则所属的路由器
 
-- $route.matchd 数组，包含当前匹配的路径中所包含的所有片段所对象的配置参数对象
+- 5. $route.matchd 数组，包含当前匹配的路径中所包含的所有片段所对象的配置参数对象
 
-- $route.name 当前路由的名字，如果没有使用具体路径，则名字为空
+- 6. $route.name 当前路由的名字，如果没有使用具体路径，则名字为空

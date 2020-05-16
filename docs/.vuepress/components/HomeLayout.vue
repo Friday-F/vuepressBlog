@@ -13,7 +13,7 @@
                 <p class="description">{{info.hitokoto}}<br><strong> -「{{info.from}}」</strong></p>
                 <ul class="list">
                     <li class="item">
-                    <a class="link" href="/interview/javascript/extend">JavaScript</a>
+                    <a class="link" href="/interview/javascript/common">JavaScript</a>
                     </li>
                     <li class="item">
                     <a class="link" href="/cleanheart/miscellaneous/sentence">杂六</a>
