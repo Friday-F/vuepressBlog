@@ -360,3 +360,57 @@ console.log(r1.render);
 - 5. $route.matchd 数组，包含当前匹配的路径中所包含的所有片段所对象的配置参数对象
 
 - 6. $route.name 当前路由的名字，如果没有使用具体路径，则名字为空
+
+## 15.Vue.use()执行原理
+- Vue.use源码分析
+```js
+import { toArray } from '../util/index'
+
+export function initUse (Vue: GlobalAPI) {
+    Vue.use = function (plugin: Function | Object) {
+        // 限制了自定义组建的类型
+        const installedPlugins = (this._installedPlugins || (this._installedPlugins =
+        []))
+        //保存注册组件的数组，不存在及创建
+        if (installedPlugins.indexOf(plugin) > -1) {
+        //判断该组件是否注册过，存在return Vue对象
+            return this
+        }
+        //调用`toArray`方法
+        const args = toArray(arguments, 1)
+        args.unshift(this)
+        //将Vue对象拼接到数组头部
+        if (typeof plugin.install === 'function') {
+        //如果组件是对象，且提供install方法，调用install方法将参数数组传入，改变`this`指针为该组件
+            plugin.install.apply(plugin, args)
+        } else if (typeof plugin === 'function') {
+        //如果传入组件是函数，这直接调用，但是此时的`this`指针只想为`null` 
+            plugin.apply(null, args)
+        }
+        //在保存注册组件的数组中添加
+        installedPlugins.push(plugin)
+        return this
+    }
+}
+```
+- toArray方法源码
+```js
+export function toArray (list: any, start?: number): Array<any> {
+  start = start || 0
+  let i = list.length - start
+//将存放参数的数组转为数组，并除去第一个参数（该组件）
+  const ret: Array<any> = new Array(i)
+//循环拿出数组
+  while (i--) {
+    ret[i] = list[i + start]
+  }
+  return ret
+}
+```
+### Vue.use()是通过`initUse`进行初始化
+- 1.`vue.use（plugin, arguments）`接受一个参数`plugin`,这个`plugin`只接收两种类新型，`plugin(Function | Object)`,如果是对象，需要提供一个`install方法`,如果是是函数，会被当成`install`方法进行执行。
+- 2.方法检测了`installedPlugins`数组中是否已包含想要注册的组件，可知插件只被注册一次，二次注册是无效的
+- 3.调用`toArray`方法，将传入的参数转成数组
+- 4.把当前Vue对象this插入到转成数组的前面
+- 5.判断`plugin.install`是否是一个方法，如果是，则传入`plugin`及转化后的数组,如果`plugin`本身就是一个方法，则传入转化后的数组，然后执行这个方法,由此可知，Vue.use(插件),实际上就是调用插件的`install`方法，并且调用use的时候是可以传入参数的
+- 6.将注册后的插件推进`installedPlugins`，避免重复注册，返回当前实例，代码执行结束。

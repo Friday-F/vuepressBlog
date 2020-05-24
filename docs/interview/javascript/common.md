@@ -75,7 +75,7 @@ console.log([] === false) //false
 let str = 'get-element-by-id';
 function fn(str){
     let arr = str.split('-');
-    for(let i = 0;i<arr.length;i++){
+    for(let i = 1;i<arr.length;i++){
         arr[i] = arr[i].charAt(0).toLocaleUpperCase() + arr[i].substr(1,arr[i].length-1)
     }
     return arr.join('')
@@ -281,3 +281,52 @@ function quick(arr){
 2.平时使用的$是jQuer对外暴露的一个工厂函数<br>
 3.构造函数在jQuery内部叫init,并且将这个构造函数被添加到jQuery内部，当我们调用工厂函数的时候，其实是一个构造函数的实例<br>
 4.jQuery为了让第三方能够对其进行拓展，所以把工厂函数的原型和构造函数的原型保持一致，这样只需暴露工厂函数，就能对其原型进行拓展<br>
+:::
+
+## 12.instanceof手动实现
+```js
+    let instance_of = function(L,R){
+        let S = L.__proto__;
+        let P = R.prototype;
+        while(true){
+            if(S == null){
+                return false
+            }else if(S == P){
+                return true
+            }
+            S = S.__proto__
+        }
+    }
+    console.log(instance_of([], Array)) // true
+    console.log(instance_of([], String)) // false
+
+```
+## 13.map手动实现
+```js
+    Array.prototype.meMap = function(fn,contxt){
+        let arr = this;
+        let result = [];
+        for(let i = 0;i<arr.length;i++){
+            let item = fn.call(contxt,arr[i],i,arr)
+            result.push(item)
+        }
+        return result;
+    }
+```
+## 14.翻转字符串
+```js
+let str = 'abcde'
+//1.
+let newStr = arr.split('').reverse().join('');
+//2.
+    function reverse(str){
+        let arr = str.split('');
+        for(let i = 0;i<arr.length/2;i++){
+            let tmp = arr[i]
+            arr[i] = arr[arr.length-1-i];
+            arr[arr.length-1-i] = tmp
+        }
+        return arr.join('')
+    }
+    reverse(str)
+```
