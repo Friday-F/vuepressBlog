@@ -330,3 +330,108 @@ let newStr = arr.split('').reverse().join('');
     }
     reverse(str)
 ```
+## 15.for...in和for...of的区别
+ ### 循环数组
+- for...in 循环的是索引
+```js
+    Array.prototype.methods=function(){
+    　　return this.length
+    }
+    let arr=[1,2,4,5,6,7]
+    arr.name="数组"
+    for (let index in arr) {
+        console.log(index); //0,1,2,3,4,5,name,methods
+    }
+```
+ #### for...in 遍历数组的缺点
+- 1.index索引为字符串型数字，不能直接进行几何运算
+- 2.遍历顺序有可能不是按照实际数组的内部顺序
+- 3.使用for in会遍历数组所有的可枚举属性，包括原型。例如上栗的原型方法method和name属性
+**所以for in更适合遍历对象，不要使用for in遍历数组。**
+
+- for...of 循环的是值
+```js
+    Array.prototype.method=function(){
+    　　return this.length
+    }
+    let arr=[1,2,4,5,6,7]
+    arr.name="数组";
+    for (let value of arr) {
+        console.log(value); //1,2,3,4,5,6,7
+    }
+```
+**for in遍历的是数组的索引（即键名），而for of遍历的是数组元素值。**<br />
+**for of遍历的只是数组内的元素，而不包括数组的原型属性methods和索引name**
+
+### 循环对象
+- for...in 循环的是键
+```js
+    let obj = {
+        name:'小明',
+        age:18
+    }
+    Object.prototype.methods = function(){
+        return this
+    }
+    obj.a = 'a';
+    for(let k in obj){
+        console.log(k) //name,age,a,methods
+    }
+```
+- 1.for in 可以遍历到obj的原型方法methods,如果不想遍历原型方法和属性的话，可以在循环内部判断一下,hasOwnPropery方法可以判断某属性是否是该对象的实例属性
+```js
+let obj = {
+        name:'小明',
+        age:18
+    }
+    Object.prototype.methods = function(){
+        return this
+    }
+    obj.a = 'a';
+    for(let k in obj){
+        if(obj.hasOwnProperty(k)){
+            console.log(k) //name,age,a,methods
+        }
+        
+    }
+```
+- for-of循环不支持普通对象，但如果你想迭代一个对象的属性，你可以用for-in循环（这也是它的本职工作）或内建的Object.keys()方法：
+
+## 16.add(1)(2)(3)
+```js
+function add(a){
+    function sum(b){
+            a = a+b
+            return sum;
+    } 
+    sum.toString = function(){
+        return a
+    }
+    return sum
+
+}
+```
+## 17.if(a == 1 && a ==2 && a == 3){}条件成立
+```js
+    // 第一种
+    let a = {
+        i:0,
+        toString(){
+            return ++this.i;
+        }
+    }
+    if(a == 1 && a ==2 && a == 3){
+        console.log('条件成立')
+    }
+    // 第二种
+    var i = 0;
+    Object.defineProperty(window,'a',{
+        get(){
+            return ++i
+        }
+    })
+    if(a == 1 && a ==2 && a == 3){
+        console.log('条件成立')
+    }
+
+```
