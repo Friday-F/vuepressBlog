@@ -284,6 +284,7 @@ function quick(arr){
 :::
 
 ## 12.instanceof手动实现
+- 能在实例的 原型对象链 中找到该构造函数的prototype属性所指向的 原型对象，就返回true
 ```js
     let instance_of = function(L,R){
         let S = L.__proto__;
@@ -390,7 +391,7 @@ let obj = {
     obj.a = 'a';
     for(let k in obj){
         if(obj.hasOwnProperty(k)){
-            console.log(k) //name,age,a,methods
+            console.log(k) //name,age,a
         }
         
     }
