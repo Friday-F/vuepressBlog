@@ -162,84 +162,7 @@ function noRepeat(arr){
     return arr;
 }
 ```
-## 9.排序
-### 冒泡排序
-- 两两比较，外层循环轮数，内层循环每轮循环的次数
-```js
-//一轮轮比较，每一轮都从第一项开始，拿出当前项和后一项进行比较，当前项a如果大于后一项b，就交换位置
-// 最大的轮数 arr.length - 1 
-// 每轮最大次数： arr.length - 1 - i 不用跟自己比较，把之前比较的给排除掉
-function sort(arr){
-    // 外层控制比较的轮数
-    for(let i = 0;i<arr.length-1;i++){
-        let isFlag = true;
-        // 内层控制每一轮比较的次数
-        for(let j = 0;j<arr.length-1-i;j++){  //每一轮都会比较出一个最大值，然后后一轮没有必要再比较了，所以没比较一轮，就少比较一次。。。
-            if(arr[j] > arr[j+1]){
-                [arr[j],arr[j+1]] = [arr[j+1],arr[j]]
-                isFlag = false
-            }
-        }
-        if(isFlag){
-            break;
-        }
-    }
-    return arr;
-}
-```
-### 插入排序
-```js
-function insert(arr){
-    // 拿出默认一张牌
-    let tmp = arr[0]
-    let newArr = [];
-    newArr.push(tmp)
-    for(let i = 1;i<arr.length;i++){
-        // 抓到的新牌
-        let a = arr[i];
-        // 从后往前比较
-        for(let j = newArr.length-1;j>=0;j--){
-            // 手里的牌
-            let b = newArr[j]
-            // 如果抓到的牌比手里的牌大
-            if(a > b){
-                // 放到当前的牌的前面
-                newArr.splice(j+1,0,a)
-                break;
-            }
-            // 如果没有比手里的牌都小，直接放到最前面
-            if(j == 0){
-                newArr.unshift(a)
-            }
-        }
-    }
-    return newArr
-}
-```
-### 快速排序
-```js
-function quick(arr){
-    if(arr.length <= 1){
-        return arr
-    }
-    // 寻找中间项
-    let middleIndex =  Math.floor(arr.length / 2)
-    let middleVal = arr.splice(middleIndex,1)[0];
-    let leftArr = [];
-    let rightArr = [];
-    for(let i = 0;i<arr.length;i++){
-        let item = arr[i];
-        if(item<middleVal){
-            leftArr.push(item)
-        }else{
-            rightArr.push(item)
-        }
-    }
-    return quick(leftArr).concat(middleVal,quick(rightArr))
-}
-```
-
-## 10.原生AJAX
+## 9.原生AJAX
 ```js
     function ajax(obj = {}){
         let option = {
@@ -275,7 +198,7 @@ function quick(arr){
         }   
     }    
 ```
-## 11.jQuery内部封装原理
+## 10.jQuery内部封装原理
 ::: tip jQuery内部封装原理
 1.为了防止变量污染，将jQuert代码放在一个自调用函数中<br>
 2.平时使用的$是jQuer对外暴露的一个工厂函数<br>
@@ -283,7 +206,7 @@ function quick(arr){
 4.jQuery为了让第三方能够对其进行拓展，所以把工厂函数的原型和构造函数的原型保持一致，这样只需暴露工厂函数，就能对其原型进行拓展<br>
 :::
 
-## 12.instanceof手动实现
+## 11.instanceof手动实现
 - 能在实例的 原型对象链 中找到该构造函数的prototype属性所指向的 原型对象，就返回true
 ```js
     let instance_of = function(L,R){
@@ -302,7 +225,7 @@ function quick(arr){
     console.log(instance_of([], String)) // false
 
 ```
-## 13.map手动实现
+## 12.map手动实现
 ```js
     Array.prototype.meMap = function(fn,contxt){
         let arr = this;
@@ -314,7 +237,7 @@ function quick(arr){
         return result;
     }
 ```
-## 14.翻转字符串
+## 13.翻转字符串
 ```js
 let str = 'abcde'
 //1.
@@ -331,7 +254,7 @@ let newStr = arr.split('').reverse().join('');
     }
     reverse(str)
 ```
-## 15.for...in和for...of的区别
+## 14.for...in和for...of的区别
  ### 循环数组
 - for...in 循环的是索引
 ```js
@@ -398,7 +321,7 @@ let obj = {
 ```
 - for-of循环不支持普通对象，但如果你想迭代一个对象的属性，你可以用for-in循环（这也是它的本职工作）或内建的Object.keys()方法：
 
-## 16.add(1)(2)(3)
+## 15.add(1)(2)(3)
 ```js
 function add(a){
     function sum(b){
@@ -412,7 +335,7 @@ function add(a){
 
 }
 ```
-## 17.if(a == 1 && a ==2 && a == 3){}条件成立
+## 16.if(a == 1 && a ==2 && a == 3){}条件成立
 ```js
     // 第一种
     let a = {

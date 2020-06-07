@@ -9,7 +9,8 @@ module.exports = {
                 ['/interview/javascript/http', '3.Http'],
                 ['/interview/javascript/browser','4.浏览器'],
                 ['/interview/javascript/prototype','5.原型链'],
-                ['/interview/javascript/promise','6.Promise']
+                ['/interview/javascript/promise','6.Promise'],
+                ['/interview/javascript/algorithm','7.算法']
             ]
         },
         {
