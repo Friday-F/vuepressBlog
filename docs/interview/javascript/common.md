@@ -359,3 +359,42 @@ function add(a){
     }
 
 ```
+## 17.多条件筛选
+```js
+let arr = [{
+    age:18,
+    timer:2018,
+    local:'zh'
+},
+{
+    age:20,
+    timer:2018,
+    local:'en'
+},
+{
+    age:18,
+    timer:2019,
+    local:'zh'
+},
+{
+    age:21,
+    timer:2020,
+    local:'zh'
+}];
+
+function filter(condition,data){
+    return data.filter( item => {
+        return Object.keys( condition ).every( key => {
+            return String( item[ key ] ).toLowerCase().includes( 
+                String( condition[ key ] ).trim().toLowerCase() )
+            } )
+        } )
+} 
+let condition={
+    age:18,
+    timer:2018,
+    local:'zh'
+}
+filter(condition,arr)
+
+```
