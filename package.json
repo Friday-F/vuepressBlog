@@ -6,12 +6,9 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
-    "deploy": "bash deploy.sh"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }  
+    "deploy": "bash deploy.sh",
+    "precommit": "webpack  --config ./web/webpack.config.js"
+
   },
   "devDependencies": {
     "@commitlint/cli": "^9.0.1",
