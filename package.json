@@ -6,15 +6,20 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
-    "deploy": "bash deploy.sh"
+    "deploy": "bash deploy.sh",
+    "commitmsg": "commitlint -E GIT_PARAMS"
   },
   "devDependencies": {
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "husky": "^4.2.5",
     "less": "^3.11.1",
     "less-loader": "^5.0.0"
   },
   "dependencies": {
     "axios": "^0.19.2",
     "echarts": "^4.7.0",
+    "fix": "0.0.6",
     "prefixfree": "^1.0.0"
   }
 }
