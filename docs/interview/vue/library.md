@@ -184,5 +184,6 @@ Vue.use(library)
     </div>
 </template>
 ```
+<p><a href="https://github.com/Crayon-F/library" target='_blank'>library地址</a></p>
 
 
