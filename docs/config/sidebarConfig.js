@@ -28,7 +28,8 @@ module.exports = {
             collapsable: true,
             children:[
                 ['/interview/vue/init', '基础'],
-                ['/interview/vue/library', '组件']
+                ['/interview/vue/library', '组件'],
+                ['/interview/vue/vuex', 'Vuex']
             ]
         },
         // {
