@@ -1,6 +1,9 @@
 ## 1.为什么要使用vuex
  ### 1.单项数据流
- <img src='./images/flow.jpg' width='450px'>
+ <div style='text-align: center;'>
+  <img src='./images/flow.jpg' width='450px' >
+ </div>
+ 
  <br />
  <br />
 
@@ -54,7 +57,9 @@ new Vue({
 - 状态管理其实就是把内部对 state 部分的操作，都拿到外部去了
 ### 3.为什么需要状态管理
 <br />
-<img src='./images/flow.jpg' width='450px'>
+<div style='text-align: center;'>
+  <img src='./images/flow.jpg' width='450px' >
+</div>
  <br />
  <br />
 
@@ -70,7 +75,9 @@ new Vue({
 
 ## 3.vuex的基本用法
 <br />
-<img src='./images/vuex_data.jpg'>
+<div style='text-align: center;'>
+  <img src='./images/vuex_data.jpg'>
+</div>
 <br />
 <br />
 
@@ -139,8 +146,7 @@ new Vue({
   </div>
 </template>
 ```
-所有 store 中 state 的改变，都放置在 store 自身的 action 中去管理。这种集中式状态管理能够被更容易地理解哪种类型的 mutation 将会发生，以及它们是如何被触发。当错误出现时，我们现在也会有一个 log 记录 bug 之前发生了什么。
-此外，每个实例/组件仍然可以拥有和管理自己的私有状态：
+把组件的共享状态抽取出来，以一个全局单例模式管理。在这种模式下，我们的组件树构成了一个巨大的“视图”，不管在树的哪个位置，任何组件都能获取状态或者触发行为！另外，通过定义和隔离状态管理中的各种概念并强制遵守一定的规则，我们的代码将会变得更结构化且易维护。
 
 
  <br />
@@ -151,7 +157,8 @@ new Vue({
  <br />
 
 
-## 4.自己封装一个vuex
+## 4.封装一个vuex
+- 入口
 ```js
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -173,7 +180,7 @@ export default new Vuex.Store({
 - 通过vue.use(vuex),说明我们有一个`install`方法
 ### 1.初始化
 1. 新建一个store文件，有一个index.js用来初始化配置
-index.js
+- index.js
 ```js
 import {Store,install} from './store';
 
