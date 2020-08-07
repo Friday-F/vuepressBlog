@@ -3,7 +3,7 @@
  <div style='text-align: center;'>
   <img src='./images/flow.jpg' width='450px' >
  </div>
- 
+
  <br />
  <br />
 
@@ -20,7 +20,7 @@
 
 - 思考
 
-  我们为什么不把组件的共享状态抽取出来，以一个**全局单例模式**(惰性单例的设计模式)管理呢？在这种模式下，我们的组件树构成了一个巨大的“视图”，不管在树的哪个位置，任何组件都能获取状态或者触发行为！
+  我们为什么不把组件的共享状态抽取出来，以一个**全局单例模式**(惰性单例的设计模式)管理，在这种模式下，我们的组件树构成了一个巨大的“视图”，不管在树的哪个位置，任何组件都能获取状态或者触发行为！
 
   通过定义和隔离状态管理中的各种概念并通过强制规则维持视图和状态间的独立性，我们的代码将会变得更结构化且易维护。
 
@@ -93,7 +93,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-
+const SET_AGE = 'SET_AGE'
 export default new Vuex.Store({ //内部会创造一个vue实例
   state: { //组件的状态，可以理解new Vue(data)
     age:18
@@ -103,10 +103,10 @@ export default new Vuex.Store({ //内部会创造一个vue实例
       return state.age + 10
     }
   },
-
-  mutations: { //vue中的方法，唯一可以更改状态的方法
+  //vue中的方法，唯一可以更改状态的方法
+  mutations: { 
     // payload称之为载荷，唯一更改state的状态的方式，并且是同步
-    setAge(state,payload){
+    [SET_AGE](state,payload){
       state.age += payload
     }
   },
@@ -115,7 +115,7 @@ export default new Vuex.Store({ //内部会创造一个vue实例
         commit
       }, payload) {
       setTimeout(() => {
-        commit('setAge', payload)
+        commit('SET_AGE', payload)
       }, 3000);
     }
   },
@@ -141,21 +141,48 @@ new Vue({
   <div id="app">
     <p>我的年龄:{{$store.state.age}}</p>
     <p>计算属性之后的年龄:{{$store.getters.getAge}}</p>
-    <button @click="$store.commit('setAge',10)">更改年纪</button>
+    <button @click="$store.commit('SET_AGE',10)">更改年纪</button>
     <button @click="$store.dispatch('changeAge',5)">异步更改年纪</button>
   </div>
 </template>
 ```
-把组件的共享状态抽取出来，以一个全局单例模式管理。在这种模式下，我们的组件树构成了一个巨大的“视图”，不管在树的哪个位置，任何组件都能获取状态或者触发行为！另外，通过定义和隔离状态管理中的各种概念并强制遵守一定的规则，我们的代码将会变得更结构化且易维护。
+- 把组件的共享状态抽取出来，以一个全局单例模式管理。
+- 在这种模式下，我们的组件树构成了一个巨大的“视图”，不管在树的哪个位置，任何组件都能获取状态或者触发行为
+- 通过定义和隔离状态管理中的各种概念并强制遵守一定的规则，我们的代码将会变得更结构化且易维护。
+<img src='./images/store_shared.png' width='450'>
+### 注意：
+- 组件不允许直接修改属于 store 实例的 state，而应执行 action 来分发 (dispatch) 事件通知 store 去改变，action 提交的是 mutation，而不是直接变更状态。mutation可以直接变更状态。
+- action 可以包含任意异步操作。mutation只能是同步操作
+- mutation第一个参数是state，而action第一个参数是context，其中包含了
+```js
+{
+    state,      // 等同于 `store.state`，若在模块中则为局部状态
+    rootState,  // 等同于 `store.state`，只存在于模块中
+    commit,     // 等同于 `store.commit`
+    dispatch,   // 等同于 `store.dispatch`
+    getters,    // 等同于 `store.getters`
+    rootGetters // 等同于 `store.getters`，只存在于模块中
+}
 
-
- <br />
- <br />
- <br />
-
- <br />
- <br />
-
+```
+- 在带命名空间的模块内提交全局的mutation和action，将 `{ root: true }` 作为第三参数传给 dispatch 或 commit。
+```js
+this.$store.dispatch('actionA', null, { root: true })
+this.$store.commit('mutationA', null, { root: true })
+```
+- 带命名空间的模块内注册全局的action
+```js
+actions: {
+  actionA: {
+      root: true,
+      handler (context, data) { ... }
+  }
+}
+```
+<a target='_blank' href='https://vuex.vuejs.org/zh/'>官网</a><br />
+<a target='_blank' href='https://juejin.im/post/6844903937745616910#heading-15'>详细使用</a><br />
+<a target='_blank' href='https://juejin.im/post/6844903993374670855'>注意点</a><br />
+<a target='_blank' href='https://github.com/Crayon-F/vuex-init'>代码示例</a>
 
 ## 4.封装一个vuex
 - 入口
@@ -228,14 +255,15 @@ export {
 - 2.我们写一个applyMixin方法，并将vue传入
 ```js
 const applyMixin = (Vue)=>{
-  //每个组件在创建前都会执行vuexInit初始化，将store注入进去
+  //在根组件创建前都会执行vuexInit初始化，将store注入进去
   Vue.mixin({
     beforeCreate:vuexInit
   })
 }
 function vuexInit() {
-  // 给每个组件都注册一个$store属性，指向同一个，所有组件都共用一个store
+  // 给组件都注册一个$store属性，指向同一个，所有组件都共用一个store
   // this.$options当前组件实例的属性
+  // 获取创建vue实例时配置的选项
   // console.log(this.$options)
   const options = this.$options;
   // 组件的创建过程，先父后子
@@ -307,6 +335,15 @@ export {
   }`类的属性访问器，当用户去这个实例上去拿state属性时，会执行此方法
 
 2. getters
+- 封装`forEach`方法
+```js
+export function forEach(obj = {}, cb) {
+  Object.keys(obj).forEach((key)=>cb(obj[key],key))
+}
+// forEach({name:'小名',age:18},(val,key)=>{
+//   console.log(val, key)
+// })
+```
 ```js
 import {
   applyMixin
@@ -332,7 +369,7 @@ class Store{
 
     // 这样写是没有缓存效果，一旦页面中的取值发生变换，都会进行重新执行渲染
     // forEach(options.getters,(fn,key)=>{
-    //   Object.defineProperty(this._getters, key, {
+    //   Object.defineProperty(this.getters, key, {
     //     get:()=>fn(state)
     //   })
     // })
