@@ -28,7 +28,36 @@
 ## 2.什么是vuex
 ### 1.概念
   Vuex 是专门为 Vue.js 设计的状态管理库，它采用**集中式存储管理应用**的所有组件的状态。
-### 2.什么是“状态管理模式”？
+### 2.“状态管理模式”？
+- 为什么进行状态管理
+<p>随着 JavaScript 单页应用开发日趋复杂，JavaScript 需要管理比任何时候都要多的 state （状态）。 这些 state 可能包括服务器响应、缓存数据、本地生成尚未持久化到服务器的数据，也包括 UI 状态，如激活的路由，被选中的标签，是否显示加载动效或者分页器等等。</p>
+<p>管理不断变化的 state 非常困难。如果一个 model 的变化会引起另一个 model 变化，那么当 view 变化时，就可能引起对应 model 以及另一个 model 的变化，依次地，可能会引起另一个 view 的变化。直至你搞不清楚到底发生了什么。state 在什么时候，由于什么原因，如何变化已然不受控制。 当系统变得错综复杂的时候，想重现问题或者添加新功能就会变得举步维艰。<br />
+-- 摘自《Redux 中文文档》</p>
+<p>Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。<br/>
+-- -- 摘自《vuex 官网》 </p>
+<br />
+<div style='text-align: center;'>
+  <img src='./images/flow_1.png' width='450px' >
+</div>
+ <br />
+ <br />
+
+ - 1.view视图将state上的数据进行显示
+ - 2.用户在view上进行操作，会触发actions去改变state中的数据
+ - 3.state上的数据发生变化，通知视图进行更新
+
+1. 在Vue或React中我们暂时不用关心1，3步骤，因为框架的核心就是实现双向数据绑定
+<div style='text-align: center;'>
+  <img src='./images/observe.png' width='850px' >
+</div>
+2. 步骤2是我们参与的部分，也就是状态管理的部分
+
+既然我们不暂时不用关心view层是如何进行双向绑定以及视图渲染，那我们为什么不把**状态管理**和**view层**进行代码分开，
+分开的好处是不依赖视图，随时可以换掉view层，而不用修改状态管理的部分代码
+
+
+- 什么是状态管理
+
 ```js
 new Vue({
   // state
@@ -55,26 +84,7 @@ new Vue({
   具体到 Vuex 里的表现就是：**把应用的所有组件的状态抽取出来，以一个全局单例模式在应用外部采用集中式存储管理。**
 
 - 状态管理其实就是把内部对 state 部分的操作，都拿到外部去了
-### 3.为什么需要状态管理
-<br />
-<div style='text-align: center;'>
-  <img src='./images/flow_1.png' width='450px' >
-</div>
- <br />
- <br />
-
- - 1.view视图将state上的数据进行显示
- - 2.用户在view上进行操作，会触发actions去改变state中的数据
- - 3.state上的数据发生变化，通知视图进行更新
-
-1. 在Vue或React中我们暂时不用关心1，3步骤，因为框架的核心就是实现双向数据绑定
-<div style='text-align: center;'>
-  <img src='./images/observe.png' width='850px' >
-</div>
-2. 步骤2是我们参与的部分，也就是状态管理的部分
-
-既然我们不暂时不用关心view层是如何进行双向绑定以及视图渲染，那我们为什么不把**状态管理**和**view层**进行代码分开，
-分开的好处是不依赖视图，随时可以换掉view层，而不用修改状态管理的部分代码
+- 在Vue中，Vue 的核心库只关注视图层，单文件组件，其模板、逻辑和样式是内部耦合的，侧重数据和视图的同步；Vue 本身并没有对数据状态的管理进行处理，但其提供了另外一个解决方案 Vuex，一个集中式状态管理的库；也就是说，你可能不需要 Vuex，它只是对你应用状态进行管理的一个库。
 
 ## 3.vuex的基本用法
 <br />
@@ -84,11 +94,18 @@ new Vue({
 <br />
 <br />
 
+**Vuex为Vue Components建立起了一个完整的生态圈，包括开发中的API调用一环。**
+
 - state：存储数据，存储状态；在根实例中注册了store 后，用 this.$store.state 来访问；对应vue里面的data；存放数据方式为响应式，vue组件从store中读取数据，如数据发生变化，组件也会对应的更新。
 - getter：可以认为是 store 的计算属性，它的返回值会根据它的依赖被缓存起来，且只有当它的依赖值发生了改变才会被重新计算。
-- mutation：更改 Vuex 的 store 中的状态的唯一方法是提交 mutation。
-- action：包含任意异步操作，通过提交 mutation 间接更变状态。
+- mutation：状态改变操作方法。是Vuex修改state的唯一推荐方法，其他修改方式在严格模式下将会报错。该方法只能进行同步操作，且方法名只能全局唯一。操作之中会有一些hook暴露出来，以进行state的监控等。
+- action：操作行为处理模块。负责处理Vue Components接收到的所有交互行为。包含同步/异步操作，支持多个同名方法，按照注册的顺序依次触发。向后台API请求的操作就在这个模块中进行，包括触发其他action以及提交mutation的操作。该模块提供了Promise的封装，以支持action的链式触发。
 - module：将 store 分割成模块，每个模块都具有state、mutation、action、getter、甚至是嵌套子模块。
+- dispatch：操作行为触发方法，是唯一能执行action的方法。
+- Vue Components：Vue组件。HTML页面上，负责接收用户操作等交互行为，执行dispatch方法触发对应action进行回应。
+- commit：状态改变提交操作方法。对mutation进行提交，是唯一能执行mutation的方法。
+
+**基本使用**
 
 - store>>index.js
 ```js
@@ -152,7 +169,10 @@ new Vue({
 - 把组件的共享状态抽取出来，以一个全局单例模式管理。
 - 在这种模式下，我们的组件树构成了一个巨大的“视图”，不管在树的哪个位置，任何组件都能获取状态或者触发行为
 - 通过定义和隔离状态管理中的各种概念并强制遵守一定的规则，我们的代码将会变得更结构化且易维护。
-<img src='./images/store_shared.png' width='450'>
+<div style='text-align: center;'>
+    <img src='./images/store_shared.png' width='450'>
+</div>
+
 ### 注意：
 - 组件不允许直接修改属于 store 实例的 state，而应执行 action 来分发 (dispatch) 事件通知 store 去改变，action 提交的是 mutation，而不是直接变更状态。mutation可以直接变更状态。
 - action 可以包含任意异步操作。mutation只能是同步操作
@@ -559,10 +579,13 @@ export {
 ```
 - 1. 采用发布订阅模式，将用户定义的mutation和action先保存起来，然后当调用commit的时候我们调用mutations方法，调用dispatch时候我们调用action的方法
 
-## 什么情况下使用vuex
-
 ## 项目中vuex问题
 
  示例(改正的样子，比不使用的优点)
 
- vue
+ ---------------------------------------------------------------------------------------------------
+ 参考资料：<br />
+<a target='_blank' href='https://vuex.vuejs.org/zh/'>vuex官网</a><br />
+<a target='_blank' href='https://juejin.im/post/6844903937745616910#heading-15'>[Vuex]Vuex学习手记</a><br />
+<a target='_blank' href='https://juejin.im/post/6844903993374670855'>Vuex面试题汇总</a><br />
+<a target='_blank' href='https://blog.csdn.net/weixin_36774307/article/details/87716169'>什么时候使用vuex</a>
