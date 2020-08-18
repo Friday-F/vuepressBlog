@@ -29,7 +29,8 @@ module.exports = {
             children:[
                 ['/interview/vue/init', '基础'],
                 ['/interview/vue/library', '组件'],
-                ['/interview/vue/vuex', 'Vuex']
+                ['/interview/vue/vuex', 'Vuex'],
+                ['/interview/vue/render', 'render']
             ]
         },
         // {

@@ -58,7 +58,7 @@ new Vue({
 ### 3.为什么需要状态管理
 <br />
 <div style='text-align: center;'>
-  <img src='./images/flow.jpg' width='450px' >
+  <img src='./images/flow_1.png' width='450px' >
 </div>
  <br />
  <br />
@@ -68,6 +68,9 @@ new Vue({
  - 3.state上的数据发生变化，通知视图进行更新
 
 1. 在Vue或React中我们暂时不用关心1，3步骤，因为框架的核心就是实现双向数据绑定
+<div style='text-align: center;'>
+  <img src='./images/observe.png' width='850px' >
+</div>
 2. 步骤2是我们参与的部分，也就是状态管理的部分
 
 既然我们不暂时不用关心view层是如何进行双向绑定以及视图渲染，那我们为什么不把**状态管理**和**view层**进行代码分开，
@@ -183,6 +186,31 @@ actions: {
 <a target='_blank' href='https://juejin.im/post/6844903937745616910#heading-15'>详细使用</a><br />
 <a target='_blank' href='https://juejin.im/post/6844903993374670855'>注意点</a><br />
 <a target='_blank' href='https://github.com/Crayon-F/vuex-init'>代码示例</a>
+
+## 4.什么时候使用vuex？
+**官方：**<br />
+**Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。**
+<br />
+**民间：**<br />
+**鲁迅说: --当你无法很好进行数据管理的时候，你才需要用Vuex**
+### 1.当一个组件需要多次派发事件时
+- 1.当一个组件多次多次派发事件,必然有其它组件进行接收并调用。
+  - 如果是一个组件进行接收和调用还好,但是多个组件进行接收？
+  - 派发事件的组件如果只派发一个事件,那还比较好管理,一旦进行多次派发那么维护的难度会以乘法增加
+  - 案例（购物车）
+    - 派发：
+      - 在首页、分类、商品详情页添加商品需要触发一次
+      - 在购物车进入编辑状态,删除购物车项,需要触发一次 
+      - 在结算订单时,需要触发一次
+    - 接收
+      - 如果每次都调用获取购物车数量的接口,但是每一次的HTTP请求,都是对浏览器性能消耗。
+- 解决：
+  - 将数据存在vuex中，派发时调用action，接收时获取store
+### 2.跨组件共享数据、跨页面共享数据
+- 1.当多个组件同时共享数据，跨组件通信
+  - 案例（登录）
+      - 用户点击登录按钮，登录成功，触发vuex中action，将用户信息进行可持续存储
+      - 当其他页面（跨组件通信）用到当前用户是否登录信息，进行相应展示活操作
 
 ## 4.封装一个vuex
 - 入口
@@ -330,6 +358,13 @@ export {
 - 1. 不能直接将state定义在实例上，因为我们state中的值是需要改变的，如果直接定义在实例上视图是不能直接更新的
 - 2. 所以我们采用new Vue将state绑定在data上，这样就会触发vue中的observe方法，从而收集watcher，进行视图更新，这也是为什么vuex跟vue是进行强依赖的
 - 3. 在vue中定义数据的时候，是有特点的，如果属性名是以$xxx命名，是不会代理到vue实例中
+  - `state:state`
+  <br />
+  <img src='./images/state.png'>
+  - `$$state:state`
+  <br />
+  <img src='./images/$data.png'>
+ 
 - 4. `get state(){
     return this._vm._data.$$state
   }`类的属性访问器，当用户去这个实例上去拿state属性时，会执行此方法
@@ -523,3 +558,11 @@ export {
 }
 ```
 - 1. 采用发布订阅模式，将用户定义的mutation和action先保存起来，然后当调用commit的时候我们调用mutations方法，调用dispatch时候我们调用action的方法
+
+## 什么情况下使用vuex
+
+## 项目中vuex问题
+
+ 示例(改正的样子，比不使用的优点)
+
+ vue

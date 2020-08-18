@@ -1,7 +1,7 @@
 const navConfig = require('../config/navConfig');
 const sidebarConfig = require('../config/sidebarConfig');
 module.exports = {
-    title: '蜡笔小新',
+    title: '蜡笔-小新',
     description: '前端*前端',
     head: [ // 注入到当前页面的 HTML <head> 中的标签
       ['link', { rel: 'shortcut icon',type: "image/x-icon", href: '/favicon.ico' }], // 增加一个自定义的 favicon(网页标签的图标)
