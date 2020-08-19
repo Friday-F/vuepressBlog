@@ -78,9 +78,6 @@ new Vue({
   }
 })
 ```
-::: tip
-随着 JavaScript 单页应用开发日趋复杂，JavaScript 需要管理比任何时候都要多的 state （状态）。 这些 state 可能包括服务器响应、缓存数据、本地生成尚未持久化到服务器的数据，也包括 UI 状态，如激活的路由，被选中的标签，是否显示加载动效或者分页器等等。
-:::
 - 这是一个状态自管理应用,以这样理解，state，view，action，三部分都写在了组件内，状态由应用组件各自管理，即自己的状态自己管理。
 
 - 而我们常说的状态管理，往往是指外部管理，目的是对状态和组件进行分离，
@@ -233,9 +230,9 @@ actions: {
 - 1.当多个组件同时共享数据，跨组件通信
   - 案例（登录）
       - 用户点击登录按钮，登录成功，触发vuex中action，将用户信息进行可持续存储
-      - 当其他页面（跨组件通信）用到当前用户是否登录信息，进行相应展示活操作
+      - 当其他页面（跨组件通信）用到当前用户是否登录信息，进行相应展示操作
 
-## 4.封装一个vuex
+## 5.封装一个vuex
 - 入口
 ```js
 import Vue from 'vue'
@@ -586,9 +583,154 @@ export {
 
  示例(改正的样子，比不使用的优点)
 
+
+## 引申：Vue双向数据绑定原理
+### 1.Object.defineProperty()
+- Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性， 并返回这个对象。在vue.js是通过它实现双向绑定的。俗称属性拦截器。
+<a href='https://www.jianshu.com/p/570a84ca7a30' target="_blank">详解Object.defineProperty方法</a>
+
+```js
+
+function update(params) {
+  console.log('更新')
+}
+
+let data = {
+  name:"小明",
+  age:18,
+  address:{
+    location:'北京'
+  },
+  list:[]
+}
+function observe(data) {
+  if (typeof data !== 'object') return;
+  for(let k in data){
+    defaultReactive(data,k,data[k])
+  }
+}
+function defaultReactive(data,key,val) {
+  // 如果对象的值是一个对象，需要进行递归
+  observe(val)
+  Object.defineProperty(data,key,{
+    get(){
+      return val
+    },
+    set(newVal){
+      if(val !== newVal){
+        update()
+        // 直接设置一个对象
+        observe(newVal)
+        val = newVal
+      }
+    }
+  })
+}
+
+observe(data)
+// data.name = '小红';
+// data.age = {sex:'nv'}
+// 针对数组，Object.defineProperty不支持数组的，but?
+// 针对数组方法进行了重写
+let methods = ['push','pop','shift','unshift','splice','sort','reverse'];
+methods.forEach(method=>{
+  let oldMethod = Array.prototype[method];
+  Array.prototype[method] = function () {
+    update()
+    oldMethod.call(this,...arguments)
+  }
+})
+data.list.push(1)
+  
+```
+
+### 2.观察者模式
+- 观察者模式，属于行为型模式的一种，它定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。这个主题对象在状态变化时，会通知所有的观察者对象，使他们能够自动更新自己。
+  - 一个目标者对象 Subject，拥有方法：添加 / 删除 / 通知 Observer；
+
+  - 多个观察者对象 Observer，拥有方法：接收 Subject 状态变更通知并处理；
+
+  - 目标对象 Subject 状态变更时，通知所有 Observer。
+
+- 注意：有些人认为观察者模式就是发布订阅模式，但实际上观察者模式和发布订阅模式是有区别的。
+
+- 区别：观察者模式只有两个，一个是观察者一个是被观察者。发布订阅模式不一样，发布订阅模式还有一个中间层，发布订阅模式的实现是，发布者通知给中间层 => 中层接受并通知订阅者 => 订阅者收到通知并发生变化
+<br />
+<br />
+<div style='text-align: center;'>
+  <img src='./images/Subject.png' width='450px' >
+</div>
+<br />
+<br />
+
+```js
+
+// 被观察者
+class Subject{
+  constructor(name){
+    this.name = name;
+    this.dep = [];
+  }
+  attach(o){
+    this.dep.push(o)
+  }
+  setState(newVal){
+    this.name = newVal;
+    this.dep.forEach(o => o.update(this))
+  }
+  
+}
+// 观察者
+class Observer{
+  constructor(name){
+    this.name = name;
+  }
+  update(obj){
+    console.log(`通知：${this.name}被观察者数据更新为${obj.name}`)
+  }
+}
+let s1 = new Subject('小明')
+let o1 = new Observer('组件1')
+let o2 = new Observer('组件2')
+s1.attach(o1);
+s1.attach(o2);
+s1.setState('小红')
+
+```
+<a target='_blank' href='https://www.runoob.com/design-pattern/observer-pattern.html'>观察者模式</a>
+<a target='_blank' href='http://c.biancheng.net/view/1390.html'>观察者模式（Observer模式）详解</a>
+
+### 3.vue双向数据绑定
+- 1、实现一个数据监听器Observer，能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知订阅者
+- 2、实现一个指令解析器Compile，对每个元素节点的指令进行扫描和解析，根据指令模板替换数据，以及绑定相应的更新函数
+- 3、实现一个Watcher，作为连接Observer和Compile的桥梁，能够订阅并收到每个属性变动的通知，执行指令绑定的相应回调函数，从而更新视图
+- 4、mvvm入口函数，整合以上三者
+
+<img src='./images/mvvm_1.png'>
+
+<img src='./images/mvvm_2.png'>
+
+- 数据先通过调用 new Observer() 为每项属性添加变化侦测，并创建一个 Dep 实例用来保存相关依赖。在读取属性值时保存依赖，修改属性值时通知依赖；
+- Dep 实例的 subs 属性为一个数组，保存依赖是向数组中添加，通知依赖时遍历数组一次调用依赖的 update 方法；
+- 依赖是一个 Watcher 实例，保存了数据变化时需要进行的操作，并将实例自身放到全局的一个位置，然后读取数据触发数据的 getter，getter 中从全局指定的位置获取到该 Watcher 实例并收集在 Dep 实例中。
+
+**问题** 
+<img src='./images/question.jpeg' width='40'>
+
+- 1.至于怎么实现Observer并将对象属性添加监听添加到dep，dep里面存入的Watcher如何收集依赖，以及怎么通知组件更新
+- 2.如何实现的指令解析器Compile=>抽象语法树(AST)=>转换成render函数=>Virtual DOM 
+
+**请听下回分解**
+
+<a target='_blank' href='https://www.jianshu.com/p/89e79829d632'>稍微学一下 Vue 的数据响应式（Vue2 及 Vue3）</a><br />
+<a target='_blank' href='https://www.jianshu.com/p/a0b9123aa3fe'>剖析Vue原理&实现双向绑定MVVM</a><br />
+
+
+
  ---------------------------------------------------------------------------------------------------
  参考资料：<br />
 <a target='_blank' href='https://vuex.vuejs.org/zh/'>vuex官网</a><br />
 <a target='_blank' href='https://juejin.im/post/6844903937745616910#heading-15'>[Vuex]Vuex学习手记</a><br />
 <a target='_blank' href='https://juejin.im/post/6844903993374670855'>Vuex面试题汇总</a><br />
-<a target='_blank' href='https://blog.csdn.net/weixin_36774307/article/details/87716169'>什么时候使用vuex</a>
+<a target='_blank' href='https://blog.csdn.net/weixin_36774307/article/details/87716169'>什么时候使用vuex</a><br />
+
