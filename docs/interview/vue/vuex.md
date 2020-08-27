@@ -579,11 +579,6 @@ export {
 ```
 - 1. 采用发布订阅模式，将用户定义的mutation和action先保存起来，然后当调用commit的时候我们调用mutations方法，调用dispatch时候我们调用action的方法
 
-## 项目中vuex问题
-
- 示例(改正的样子，比不使用的优点)
-
-
 ## 引申：Vue双向数据绑定原理
 ### 1.Object.defineProperty()
 - Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性， 并返回这个对象。在vue.js是通过它实现双向绑定的。俗称属性拦截器。
@@ -651,15 +646,28 @@ data.list.push(1)
   - 多个观察者对象 Observer，拥有方法：接收 Subject 状态变更通知并处理；
 
   - 目标对象 Subject 状态变更时，通知所有 Observer。
-
-- 注意：有些人认为观察者模式就是发布订阅模式，但实际上观察者模式和发布订阅模式是有区别的。
-
-- 区别：观察者模式只有两个，一个是观察者一个是被观察者。发布订阅模式不一样，发布订阅模式还有一个中间层，发布订阅模式的实现是，发布者通知给中间层 => 中层接受并通知订阅者 => 订阅者收到通知并发生变化
+###  模式的结构
+观察者模式的主要角色如下。
+- 抽象主题（Subject）角色：也叫抽象目标类，它提供了一个用于保存观察者对象的聚集类和增加、删除观察者对象的方法，以及通知所有观察者的抽象方法。
+- 具体主题（Concrete    Subject）角色：也叫具体目标类，它实现抽象目标中的通知方法，当具体主题的内部状态发生改变时，通知所有注册过的观察者对象。
+- 抽象观察者（Observer）角色：它是一个抽象类或接口，它包含了一个更新自己的抽象方法，当接到具体主题的更改通知时被调用。
+- 具体观察者（Concrete Observer）角色：实现抽象观察者中定义的抽象方法，以便在得到目标的更改通知时更新自身的状态。
 <br />
 <br />
 <div style='text-align: center;'>
-  <img src='./images/Subject.png' width='450px' >
+  <img src='./images/observe_class.gif'>
 </div>
+<br />
+<br />
+- 例子：
+学校的“铃”是事件源和目标，“老师”和“学生”是事件监听器和具体观察者，“铃声”是事件类。学生和老师来到学校的教学区，都会注意学校的铃，这叫事件绑定；当上课时间或下课时间到，会触发铃发声，这时会生成“铃声”事件；学生和老师听到铃声会开始上课或下课，这叫事件处理。
+<br />
+<br />
+<br />
+<div style='text-align: center;'>
+  <img src='./images/ling.gif'>
+</div>
+<br />
 <br />
 <br />
 
@@ -698,7 +706,10 @@ s1.setState('小红')
 
 ```
 <a target='_blank' href='https://www.runoob.com/design-pattern/observer-pattern.html'>观察者模式</a>
+<br />
 <a target='_blank' href='http://c.biancheng.net/view/1390.html'>观察者模式（Observer模式）详解</a>
+<br />
+<a target='_blank' href='https://www.cnblogs.com/adamjwh/p/10913660.html'>简说设计模式——观察者模式</a>
 
 ### 3.vue双向数据绑定
 - 1、实现一个数据监听器Observer，能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知订阅者
