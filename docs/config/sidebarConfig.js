@@ -33,6 +33,13 @@ module.exports = {
                 ['/interview/vue/render', 'render']
             ]
         },
+        {
+            title:"Blockchain",
+            collapsable: true,
+            children:[
+                ['/interview/blockchain/01', '人类社会货币的演变']
+            ]
+        },
         // {
         //     title:"yiqing",
         //     collapsable: true,
