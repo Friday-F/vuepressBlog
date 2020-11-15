@@ -37,7 +37,8 @@ module.exports = {
             title:"Blockchain",
             collapsable: true,
             children:[
-                ['/interview/blockchain/01', '人类社会货币的演变']
+                ['/interview/blockchain/01', '人类社会货币的演变'],
+                ['/interview/blockchain/02', '比特币的转账机制和7个必修名词']
             ]
         },
         // {
