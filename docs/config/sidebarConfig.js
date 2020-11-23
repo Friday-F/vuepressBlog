@@ -39,7 +39,8 @@ module.exports = {
             children:[
                 ['/interview/blockchain/01', '人类社会货币的演变'],
                 ['/interview/blockchain/02', '比特币的转账机制和7个必修名词'],
-                ['/interview/blockchain/03', '比特币转账运行原理']
+                ['/interview/blockchain/03', '比特币转账运行原理'],
+                ['/interview/blockchain/04', '比特币技术来源']
             ]
         },
         // {
