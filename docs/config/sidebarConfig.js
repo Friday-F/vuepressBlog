@@ -42,6 +42,7 @@ module.exports = {
                 ['/interview/blockchain/03', '比特币转账运行原理'],
                 ['/interview/blockchain/04', '比特币技术来源'],
                 ['/interview/blockchain/05', '比特币价格'],
+                ['/interview/blockchain/06', '比特币上游-挖矿'],
             ]
         },
         // {
