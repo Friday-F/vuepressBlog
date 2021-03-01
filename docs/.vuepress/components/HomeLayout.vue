@@ -1,185 +1,208 @@
 <template>
-    <div class="home-latout" :style="`backgroundImage:url(${picUrl})`">
-        <div class="crayon" v-show="isLoading === false">
-            <div class="logo">
-                <img src="../public/assets/img/logo.jpeg" alt="" class="pic">
-            </div>
-            <div class="title">
-                <h1 class="crayon-title"><a href="/" class="link">蜡笔-小新</a></h1>
-                <p class="crayon-en">Crayon Shin-chan</p>
-            </div>
-            <!-- <a class="action"><a href="/interview/javascript/extend" class="nav-link action-button">让我们开始吧</a></p> -->
-            <div class="vue-press">
-                <p class="description">{{info.hitokoto}}<br><strong> -「{{info.from}}」</strong></p>
-                <ul class="list">
-                    <li class="item">
-                    <a class="link" href="/interview/javascript/common">JavaScript</a>
-                    </li>
-                    <li class="item">
-                    <a class="link" href="/cleanheart/miscellaneous/sentence">杂六</a>
-                    </li>
-                    <li class="item">
-                    <a class="link" target="_blank" href="https://github.com/Crayon-F">GitHub</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div v-show="isLoading">
-            <Loading></Loading>
-        </div>
+  <div :class="['home-latout',{'is_error':isError}]"
+       :style="`backgroundImage:url(${picUrl})`">
+    <div class="crayon"
+         v-show="isLoading === false">
+      <div class="logo">
+        <img src="../public/assets/img/logo.jpeg"
+             alt=""
+             class="pic">
+      </div>
+      <div class="title">
+        <h1 class="crayon-title">
+          <a href="/"
+             class="link">蜡笔-小新</a>
+        </h1>
+        <p class="crayon-en">Crayon Shin-chan</p>
+      </div>
+      <!-- <a class="action"><a href="/interview/javascript/extend" class="nav-link action-button">让我们开始吧</a></p> -->
+      <div class="vue-press">
+        <p class="description">{{info.hitokoto}}<br>
+          <strong> -「{{info.from}}」</strong>
+        </p>
+        <ul class="list">
+          <li class="item">
+            <a class="link"
+               href="/interview/javascript/common">JavaScript</a>
+          </li>
+          <li class="item">
+            <a class="link"
+               href="/cleanheart/miscellaneous/sentence">杂六</a>
+          </li>
+          <li class="item">
+            <a class="link"
+               target="_blank"
+               href="https://github.com/Crayon-F">GitHub</a>
+          </li>
+        </ul>
+      </div>
     </div>
+    <p class="warning">不为不可成,不求不可得,不处不可久,不行不可复</p>
+    <div v-show="isLoading">
+      <Loading></Loading>
+    </div>
+  </div>
 </template>
 <script>
 import axios from 'axios'
 import Loading from './loading-transtion'
+const home_bg = require('./images/index_bg.jpg')
 export default {
-    name:'crayon',
-    components:{
-        Loading
-    },
-    data(){
-        return{
-            info:{
-                hitokoto:'',
-                from:''
-            },
-            picUrl:"",
-            isLoading:true
-        }
-    },
-    created(){
-        // this.getInfo()
-        // this.getPicUrl()
-        this.getData();
-    },
-    methods:{
-        getData(){
-            axios.all([this.getInfo(),this.getPicUrl()])
-                .then(axios.spread((info,url)=>{
-                    if(info.status === 200){
-                        this.info = Object.assign({},this.info,info.data)
-                    }
-                    if(url.status === 200){
-                        this.picUrl = url.config.url;
-                    }
-                    this.isLoading = false;
-                }))
-        },
-        
-        getInfo(){
-           return axios.get('https://v1.hitokoto.cn/')
-            // .then(info=>{
-            //     if(info.status === 200){
-            //         this.info = Object.assign({},this.info,info.data)
-            //     }
-            // })
-        },
-        getPicUrl(){
-            return axios.get('https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture')
-                // .then(url=>{
-                //     console.log(url)
-                //     if(url.status === 200){
-                //         this.picUrl = url.config.url;
-                       
-                //     }
-                // })
-        }
-        
+  name: 'crayon',
+  components: {
+    Loading
+  },
+  data () {
+    return {
+      info: {
+        hitokoto: '',
+        from: ''
+      },
+      picUrl: "",
+      isLoading: true,
+      isError: false
     }
+  },
+  created () {
+    this.getData();
+  },
+  methods: {
+    async getData () {
+      try {
+        let { data: info, status } = await this.getInfo()
+        this.info = Object.assign({}, this.info, info)
+      } catch (error) {
+        console.log(error)
+      }
+      try {
+        let url = await this.getPicUrl()
+        this.picUrl = url.config.url;
+      } catch (error) {
+        this.picUrl = home_bg;
+        this.isError = true;
+      }
+      this.isLoading = false;
+    },
+
+    getInfo () {
+      return axios.get('https://v1.hitokoto.cn/')
+    },
+    getPicUrl () {
+      return axios.get('https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture')
+    }
+
+  }
 
 }
 </script>
 <style lang='less'>
-@import '../public/styles/reset.less';
-@import '../public/styles/style.less';
-    @keyframes myfirst{
-        from {
-            transform: translate(0, 200px);
-            opacity: 0;
-        }
-        to {
-            transform: translate(0, 0);
-            opacity: 1;
-        }
-    }
-    
-    .home-latout{
-        width: 100%;
-        height: 100%;
-        background-position:center;
-        background-size:cover;
-        background-repeat:no-repeat;
-        // background-color: rgba(0, 0,0,.3);    
-    }
-    .crayon{
-        position: absolute;
-        top:50%;
-        left:50%;
-        transform: translate(-50%,-50%);
-        .logo{
-            text-align: center;
-            animation: myfirst 2s;
-            .pic{
-                width: 120px;
-                height:120px;
-                border:1px solid #000;
-                border-radius: 50%;
-                // margin:3rem auto 1.5rem;
-            }
-        }
-        .title{
-            text-align: center;
-            animation: myfirst 3s;
-            .crayon-title{
-                font-weight: normal;
-                margin-bottom:0.6rem;
-                .link{
-                    text-decoration: none;
-                    color:#fff;
-                }
-            }
-            .crayon-en{
-                font-size: 18px;
-                color:#fff;
-            }
-        }
-        .vue-press{
-            border-top: 1px solid #eaecef;
-            padding: 0.6rem 0;
-            margin-top: 0.6rem;
-            animation: myfirst 4s;
-            min-width: 18rem;
-            .description{
-                max-width: 24rem;
-                font-size: 1.2rem;
-                line-height: 1.8;
-                color: #fff;
-                text-align: center;
-                font-weight: normal;
-                margin-bottom:2rem;
+@import "../public/styles/reset.less";
+@import "../public/styles/style.less";
+@keyframes myfirst {
+  from {
+    transform: translate(0, 100px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
 
-            }
-            .list{
-                display: flex;
-                justify-content:space-between;
-                .item{
-                    text-align: center;
-                    .link{
-                        padding:0.4rem 0.8rem;
-                        font-weight: bold;
-                        border:1px solid #fff;
-                        border-radius: 22px;
-                        font-size: 0.9em;
-                        // margin:0 0.02rem;
-                        color:#fff;
-                        display: block;
-                        white-space:nowrap;
-                    }
-                    
-                }
-            }
-        }
+.home-latout {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  &.is_error {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
     }
+  }
+}
+.crayon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  .logo {
+    text-align: center;
+    animation: myfirst 1s;
+    .pic {
+      width: 120px;
+      height: 120px;
+      border: 1px solid #000;
+      border-radius: 50%;
+      // margin:3rem auto 1.5rem;
+    }
+  }
+  .title {
+    text-align: center;
+    animation: myfirst 1.2s;
+    .crayon-title {
+      margin-bottom: 0.8rem;
+      .link {
+        text-decoration: none;
+        color: #fff;
+        font-weight: normal;
+        font-size: 20px;
+      }
+    }
+    .crayon-en {
+      font-size: 18px;
+      color: #fff;
+    }
+  }
+  .vue-press {
+    border-top: 1px solid #eaecef;
+    padding: 0.6rem 0;
+    margin-top: 0.6rem;
+    animation: myfirst 1.4s;
+    min-width: 18rem;
+    .description {
+      max-width: 24rem;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #fff;
+      text-align: center;
+      font-weight: normal;
+      margin-bottom: 2rem;
+    }
+    .list {
+      display: flex;
+      justify-content: space-between;
+      .item {
+        text-align: center;
+        .link {
+          padding: 0.4rem 0.8rem;
+          font-weight: bold;
+          border: 1px solid #fff;
+          border-radius: 22px;
+          font-size: 0.9em;
+          // margin:0 0.02rem;
+          color: #fff;
+          display: block;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}
+.warning {
+  position: absolute;
+  bottom: 2rem;
+  right: 3rem;
+  color: #fff;
+  z-index: 1;
+  animation: myfirst 1.6s;
+}
 </style>
 
 
