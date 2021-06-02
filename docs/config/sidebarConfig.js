@@ -30,7 +30,8 @@ module.exports = {
                 ['/interview/vue/init', '基础'],
                 ['/interview/vue/library', '组件'],
                 ['/interview/vue/vuex', 'Vuex'],
-                ['/interview/vue/render', 'render']
+                ['/interview/vue/render', 'render'],
+                ['/interview/vue/commonTable', 'elementUi搭配vue封装table组件']
             ]
         },
         {
