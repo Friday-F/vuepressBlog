@@ -143,6 +143,16 @@ fn(arr)
 //new Set()
 let newArray = [...new Set(arr)]
 
+// reduce
+function fn(arr){
+    let newArray = arr.reduce((pre,i)=>{
+        pre.indexOf(i) === -1 && pre.push(i)
+        return pre
+    },[])
+    return newArray
+}
+fn(arr)
+
 // 第三种方式
 function noRepeat(arr){
     for(let i = 0;i<arr.length-1;i++){
