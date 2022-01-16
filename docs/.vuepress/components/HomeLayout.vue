@@ -76,6 +76,7 @@ export default {
       }
       try {
         let url = await this.getPicUrl()
+        console.log(url)
         this.picUrl = url.config.url;
       } catch (error) {
         this.picUrl = home_bg;
@@ -88,7 +89,7 @@ export default {
       return axios.get('https://v1.hitokoto.cn/')
     },
     getPicUrl () {
-      return axios.get('https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture')
+      return axios.get('https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1')
     }
 
   }
