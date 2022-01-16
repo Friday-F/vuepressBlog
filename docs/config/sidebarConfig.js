@@ -55,6 +55,8 @@ module.exports = {
               ['/interview/Leecode-top/01', '无重复字符的最长子串'],
               ['/interview/Leecode-top/02', '合并两个有序数组'],
               ['/interview/Leecode-top/03', '字符串相加'],
+              ['/interview/Leecode-top/04', '两数之和'],
+              ['/interview/Leecode-top/05', '全排列'],
           ]
       },
         // {
