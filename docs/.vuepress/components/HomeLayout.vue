@@ -1,6 +1,5 @@
 <template>
-  <div :class="['home-latout',{'is_error':isError}]"
-       :style="`backgroundImage:url(${picUrl})`">
+  <div :class="home-latout">
     <div class="crayon"
          v-show="isLoading === false">
       <div class="logo">
@@ -36,16 +35,21 @@
           </li>
         </ul>
       </div>
+
     </div>
     <p class="warning">不为不可成,不求不可得,不处不可久,不行不可复</p>
     <div v-show="isLoading">
       <Loading></Loading>
     </div>
+    <img class="home-latout-bg"
+         src="https://api.ixiaowai.cn/gqapi/gqapi.php"
+         alt="Bing每日图片超高清" />
   </div>
 </template>
 <script>
 import axios from 'axios'
 import Loading from './loading-transtion'
+import { log } from 'util';
 const home_bg = require('./images/index_bg.jpg')
 export default {
   name: 'crayon',
@@ -74,22 +78,12 @@ export default {
       } catch (error) {
         console.log(error)
       }
-      try {
-        let url = await this.getPicUrl()
-        this.picUrl = url.config.url;
-      } catch (error) {
-        this.picUrl = home_bg;
-        this.isError = true;
-      }
       this.isLoading = false;
     },
 
     getInfo () {
       return axios.get('https://v1.hitokoto.cn/')
     },
-    getPicUrl () {
-      return axios.get('https://uploadbeta.com/api/pictures/random/?key=BingEverydayWallpaperPicture')
-    }
 
   }
 
@@ -124,6 +118,13 @@ export default {
       width: 100%;
       background-color: rgba(0, 0, 0, 0.5);
     }
+  }
+  &-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 }
 .crayon {
