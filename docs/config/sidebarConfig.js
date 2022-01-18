@@ -95,6 +95,8 @@ module.exports = {
                 collapsable: true,
                 children:[
                     ['/interview/Leecode-top/DynamicProgramming/01', '最大子数组和'],
+                    ['/interview/Leecode-top/DynamicProgramming/02', '爬楼梯'],
+                    ['/interview/Leecode-top/DynamicProgramming/03', '买卖股票的最佳时机'],
                 ]
             },
             {
