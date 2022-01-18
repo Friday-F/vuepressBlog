@@ -57,6 +57,7 @@ module.exports = {
               ['/interview/Leecode-top/03', '字符串相加'],
               ['/interview/Leecode-top/04', '两数之和'],
               ['/interview/Leecode-top/05', '全排列'],
+              ['/interview/Leecode-top/06', '最大子数组和'],
           ]
       },
         // {
