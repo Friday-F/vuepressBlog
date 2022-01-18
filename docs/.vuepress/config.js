@@ -15,6 +15,6 @@ module.exports = {
         logo:'',
         nav:navConfig,
         sidebar: sidebarConfig, // 侧边栏配置
-        sidebarDepth: 2 // 侧边栏显示2级
+        sidebarDepth: 3 // 侧边栏显示2级
     }
 };

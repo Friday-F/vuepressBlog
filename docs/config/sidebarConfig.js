@@ -52,13 +52,82 @@ module.exports = {
           title:"leecodeTop",
           collapsable: true,
           children:[
-              ['/interview/Leecode-top/01', '无重复字符的最长子串'],
-              ['/interview/Leecode-top/02', '合并两个有序数组'],
-              ['/interview/Leecode-top/03', '字符串相加'],
-              ['/interview/Leecode-top/04', '两数之和'],
-              ['/interview/Leecode-top/05', '全排列'],
-              ['/interview/Leecode-top/06', '最大子数组和'],
-          ]
+            {
+                title:"字符串篇",
+                link:"String",
+                collapsable: true,
+                children:[
+                    ['/interview/Leecode-top/String/01', '无重复字符的最长子串'],
+                    ['/interview/Leecode-top/String/02', '字符串相加'],
+                ]
+            },
+            {
+                title:"数组篇",
+                link:'Array',
+                collapsable: true,
+                children:[
+                    ['/interview/Leecode-top/Array/01', '合并两个有序数组'],
+                    ['/interview/Leecode-top/Array/02', '两数之和'],
+                ]
+            },
+            {
+                title:"二叉树",
+                link:'BinaryTree',
+                collapsable: true,
+                children:[]
+            },
+            {
+                title:"排序算法",
+                link:'Sort',
+                collapsable: true,
+                children:[]
+
+            },
+            {
+                title:"查找算法",
+                link:'Find',
+                collapsable: true,
+                children:[]
+            },
+            {
+                title:"动态规划",
+                link:'DynamicProgramming',
+                collapsable: true,
+                children:[
+                    ['/interview/Leecode-top/DynamicProgramming/01', '最大子数组和'],
+                ]
+            },
+            {
+                title:"回溯算法",
+                link:'Backtracking',
+                collapsable: true,
+                children:[
+                    ['/interview/Leecode-top/Backtracking/01', '全排列'],
+                ]
+            },
+            {
+                title:"贪心算法",
+                link:'GreedyAlgorithms',
+                collapsable: true,
+                children:[]
+
+            },
+            {
+                title:"链表",
+                link:'LinkedList',
+                collapsable: true,
+                children:[]
+
+            },
+            {
+                title:"其他",
+                link:'Other',
+                collapsable: true,
+                children:[]
+
+            }     
+                        
+          ],
       },
         // {
         //     title:"yiqing",
