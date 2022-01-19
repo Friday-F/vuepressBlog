@@ -68,6 +68,7 @@ module.exports = {
                 children:[
                     ['/interview/Leecode-top/Array/01', '合并两个有序数组'],
                     ['/interview/Leecode-top/Array/02', '两数之和'],
+                    ['/interview/Leecode-top/Array/03', '三数之和'],
                 ]
             },
             {
@@ -120,6 +121,14 @@ module.exports = {
                 collapsable: true,
                 children:[]
 
+            },
+            {
+                title:"栈",
+                link:'Warehouse',
+                collapsable: true,
+                children:[
+                    ['/interview/Leecode-top/Warehouse/01', '有效的括号'],
+                ]
             },
             {
                 title:"其他",
