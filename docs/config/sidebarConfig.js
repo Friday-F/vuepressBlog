@@ -101,7 +101,7 @@ module.exports = {
                 children:[
                     ['/interview/Leecode-top/DynamicProgramming/01', '最大子数组和'],
                     ['/interview/Leecode-top/DynamicProgramming/02', '爬楼梯'],
-                    ['/interview/Leecode-top/DynamicProgramming/03', '买卖股票的最佳时机'],
+                   
                 ]
             },
             {
@@ -116,7 +116,10 @@ module.exports = {
                 title:"贪心算法",
                 link:'GreedyAlgorithms',
                 collapsable: true,
-                children:[]
+                children:[
+                  ['/interview/Leecode-top/GreedyAlgorithms/01', '买卖股票的最佳时机'],
+                  ['/interview/Leecode-top/GreedyAlgorithms/02', '买卖股票的最佳时机II'],
+                ]
 
             },
             {
