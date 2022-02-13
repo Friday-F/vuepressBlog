@@ -69,6 +69,10 @@ module.exports = {
                     ['/interview/Leecode-top/Array/01', '合并两个有序数组'],
                     ['/interview/Leecode-top/Array/02', '两数之和'],
                     ['/interview/Leecode-top/Array/03', '三数之和'],
+                    ['/interview/Leecode-top/Array/04', '二分查找'],
+                    ['/interview/Leecode-top/Array/06', '搜索插入位置'],
+                    ['/interview/Leecode-top/Array/06', '在排序数组中查找元素的第一个和最后一个位置'],
+                    ['/interview/Leecode-top/Array/07', 'x 的平方根'],
                 ]
             },
             {
