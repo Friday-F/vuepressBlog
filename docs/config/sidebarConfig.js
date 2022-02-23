@@ -70,10 +70,26 @@ module.exports = {
                     ['/interview/Leecode-top/Array/02', '两数之和'],
                     ['/interview/Leecode-top/Array/03', '三数之和'],
                     ['/interview/Leecode-top/Array/04', '二分查找'],
-                    ['/interview/Leecode-top/Array/06', '搜索插入位置'],
+                    ['/interview/Leecode-top/Array/05', '搜索插入位置'],
                     ['/interview/Leecode-top/Array/06', '在排序数组中查找元素的第一个和最后一个位置'],
                     ['/interview/Leecode-top/Array/07', 'x 的平方根'],
                 ]
+            },
+            {
+              title:"双指针",
+              link:'Pointer',
+              collapsable: true,
+              children:[
+                ['/interview/Leecode-top/Pointer/01', '移除元素'],
+                ['/interview/Leecode-top/Pointer/02', '删除有序数组中的重复项'],
+                ['/interview/Leecode-top/Pointer/03', '移动零'],
+                ['/interview/Leecode-top/Pointer/04', '有序数组的平方'],
+                ['/interview/Leecode-top/Pointer/05', '反转字符串'],
+                ['/interview/Leecode-top/Pointer/06', '替换空格'],
+                ['/interview/Leecode-top/Pointer/07', '三数之和'],
+                ['/interview/Leecode-top/Pointer/08', '环形链表'],
+                ['/interview/Leecode-top/Pointer/09', '翻转字符串里面的单词'],
+              ]
             },
             {
                 title:"二叉树",
