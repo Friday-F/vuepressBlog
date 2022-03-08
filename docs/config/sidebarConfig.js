@@ -149,7 +149,10 @@ module.exports = {
                 title:"链表",
                 link:'LinkedList',
                 collapsable: true,
-                children:[]
+                children:[
+                  ['/interview/Leecode-top/LinkedList/01', '合并两个有序链表'],
+                  ['/interview/Leecode-top/LinkedList/02', '反转链表'],
+                ]
 
             },
             {
