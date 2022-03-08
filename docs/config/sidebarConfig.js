@@ -120,6 +120,8 @@ module.exports = {
                 collapsable: true,
                 children:[
                     ['/interview/Leecode-top/DynamicProgramming/01', '爬楼梯'],
+                    ['/interview/Leecode-top/DynamicProgramming/02', '最长递增子序列'],
+                    ['/interview/Leecode-top/DynamicProgramming/03', '零钱兑换'],
                    
                 ]
             },
