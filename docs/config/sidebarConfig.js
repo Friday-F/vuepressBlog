@@ -119,8 +119,7 @@ module.exports = {
                 link:'DynamicProgramming',
                 collapsable: true,
                 children:[
-                    ['/interview/Leecode-top/DynamicProgramming/01', '最大子数组和'],
-                    ['/interview/Leecode-top/DynamicProgramming/02', '爬楼梯'],
+                    ['/interview/Leecode-top/DynamicProgramming/01', '爬楼梯'],
                    
                 ]
             },
@@ -139,6 +138,7 @@ module.exports = {
                 children:[
                   ['/interview/Leecode-top/GreedyAlgorithms/01', '买卖股票的最佳时机'],
                   ['/interview/Leecode-top/GreedyAlgorithms/02', '买卖股票的最佳时机II'],
+                  ['/interview/Leecode-top/GreedyAlgorithms/03', '最大子数组和'],
                 ]
 
             },
