@@ -141,6 +141,7 @@ module.exports = {
                   ['/interview/Leecode-top/GreedyAlgorithms/01', '买卖股票的最佳时机'],
                   ['/interview/Leecode-top/GreedyAlgorithms/02', '买卖股票的最佳时机II'],
                   ['/interview/Leecode-top/GreedyAlgorithms/03', '最大子数组和'],
+                  ['/interview/Leecode-top/GreedyAlgorithms/04', '合并区间'],
                 ]
 
             },
