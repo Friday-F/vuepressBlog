@@ -89,6 +89,7 @@ module.exports = {
                 ['/interview/Leecode-top/Pointer/07', '三数之和'],
                 ['/interview/Leecode-top/Pointer/08', '环形链表'],
                 ['/interview/Leecode-top/Pointer/09', '翻转字符串里面的单词'],
+                ['/interview/Leecode-top/Pointer/10', '链表中倒数第k个节点'],
               ]
             },
             {
