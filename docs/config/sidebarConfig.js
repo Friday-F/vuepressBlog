@@ -59,6 +59,9 @@ module.exports = {
                 children:[
                     ['/interview/Leecode-top/String/01', '无重复字符的最长子串'],
                     ['/interview/Leecode-top/String/02', '字符串相加'],
+                    ['/interview/Leecode-top/String/03', '比较版本号'],
+                    ['/interview/Leecode-top/String/04', '最长回文字符串'],
+                    
                 ]
             },
             {
