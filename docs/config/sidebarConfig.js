@@ -114,7 +114,9 @@ module.exports = {
                 title:"排序算法",
                 link:'Sort',
                 collapsable: true,
-                children:[]
+                children:[
+                  ['/interview/Leecode-top/Sort/01', '快排'],
+                ]
 
             },
             {
