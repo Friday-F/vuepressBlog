@@ -134,6 +134,7 @@ module.exports = {
                     ['/interview/Leecode-top/DynamicProgramming/01', '爬楼梯'],
                     ['/interview/Leecode-top/DynamicProgramming/02', '最长递增子序列'],
                     ['/interview/Leecode-top/DynamicProgramming/03', '零钱兑换'],
+                    ['/interview/Leecode-top/DynamicProgramming/04', '最长重复子数组']
                    
                 ]
             },
