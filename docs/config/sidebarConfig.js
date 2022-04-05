@@ -107,6 +107,7 @@ module.exports = {
                   ['/interview/Leecode-top/BinaryTree/05', '二叉树的最大深度'],
                   ['/interview/Leecode-top/BinaryTree/06', '路径总和'],
                   ['/interview/Leecode-top/BinaryTree/07', '二叉树的层序遍历'],
+                  ['/interview/Leecode-top/BinaryTree/08', '翻转二叉树'],
                   
                 ]
             },
