@@ -5,12 +5,14 @@ module.exports = {
             collapsable: true,
             children: [
                 ['/interview/javascript/common', '1.常见面试题'],
-                ['/interview/javascript/extend', '2.继承'],
-                ['/interview/javascript/http', '3.Http'],
-                ['/interview/javascript/browser','4.浏览器'],
-                ['/interview/javascript/prototype','5.原型链'],
-                ['/interview/javascript/promise','6.Promise'],
-                ['/interview/javascript/algorithm','7.算法']
+                ['/interview/javascript/api', '2.原生Api'],
+                ['/interview/javascript/extend', '3.继承'],
+                ['/interview/javascript/http', '4.Http'],
+                ['/interview/javascript/browser','5.浏览器'],
+                ['/interview/javascript/prototype','6.原型链'],
+                ['/interview/javascript/promise','7.Promise'],
+                ['/interview/javascript/algorithm','9.算法'],
+                ['/interview/javascript/closure','10.闭包']
             ]
         },
         {
