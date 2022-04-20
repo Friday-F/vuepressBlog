@@ -10,9 +10,9 @@
       <div class="title">
         <h1 class="crayon-title">
           <a href="/"
-             class="link">蜡笔-小新</a>
+             class="link">Friday</a>
         </h1>
-        <p class="crayon-en">Crayon Shin-chan</p>
+        <p class="crayon-en">一个不爱折腾的人折腾的东西</p>
       </div>
       <!-- <a class="action"><a href="/interview/javascript/extend" class="nav-link action-button">让我们开始吧</a></p> -->
       <div class="vue-press">
@@ -26,18 +26,18 @@
           </li>
           <li class="item">
             <a class="link"
-               href="/cleanheart/miscellaneous/sentence">杂六</a>
+               href="/cleanheart/miscellaneous/sentence">星期五</a>
           </li>
           <li class="item">
             <a class="link"
                target="_blank"
-               href="https://github.com/Crayon-F">GitHub</a>
+               href="https://github.com/Friday-F">GitHub</a>
           </li>
         </ul>
       </div>
 
     </div>
-    <p class="warning">不为不可成,不求不可得,不处不可久,不行不可复</p>
+    <!-- <p class="warning">不为不可成,不求不可得,不处不可久,不行不可复</p> -->
     <div v-show="isLoading">
       <Loading></Loading>
     </div>
