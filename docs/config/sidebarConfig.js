@@ -196,13 +196,13 @@ module.exports = {
         //     ]
         // }
     ],
-    '/cleanheart':[
+    '/friday':[
         {
-            title: 'CleanHeart',
+            title: '',
             collapsable: true,
             children:[
-                ['/cleanheart/miscellaneous/sentence', '1.杂七'],
-                ['/cleanheart/miscellaneous/poetry', '2.古诗杂文']
+                ['/friday/miscellaneous/sentence', '1.净言'],
+                ['/friday/miscellaneous/poetry', '2.古诗杂文']
             ]
         }
     ]
