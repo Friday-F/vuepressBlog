@@ -11,8 +11,7 @@ module.exports = {
                 ['/interview/javascript/browser','5.浏览器'],
                 ['/interview/javascript/prototype','6.原型链'],
                 ['/interview/javascript/promise','7.Promise'],
-                ['/interview/javascript/algorithm','9.算法'],
-                ['/interview/javascript/closure','10.闭包']
+                ['/interview/javascript/closure','8.闭包']
             ]
         },
         {
@@ -95,6 +94,7 @@ module.exports = {
                 ['/interview/Leecode-top/Pointer/08', '环形链表'],
                 ['/interview/Leecode-top/Pointer/09', '翻转字符串里面的单词'],
                 ['/interview/Leecode-top/Pointer/10', '链表中倒数第k个节点'],
+                ['/interview/Leecode-top/Pointer/11', '判断子序列'],
               ]
             },
             {
@@ -118,7 +118,9 @@ module.exports = {
                 link:'Sort',
                 collapsable: true,
                 children:[
-                  ['/interview/Leecode-top/Sort/01', '快排'],
+                  ['/interview/Leecode-top/Sort/01', '冒泡'],
+                  ['/interview/Leecode-top/Sort/02', '快排'],
+                  ['/interview/Leecode-top/Sort/03', '插入'],
                 ]
 
             },
