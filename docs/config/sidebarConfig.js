@@ -77,6 +77,8 @@ module.exports = {
                     ['/interview/LeetcodeTop/Array/05', '搜索插入位置'],
                     ['/interview/LeetcodeTop/Array/06', '在排序数组中查找元素的第一个和最后一个位置'],
                     ['/interview/LeetcodeTop/Array/07', 'x 的平方根'],
+                    ['/interview/LeetcodeTop/Array/08', '岛屿数量'],
+
                 ]
             },
             {
