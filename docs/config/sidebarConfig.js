@@ -50,7 +50,7 @@ module.exports = {
             ]
         },
         {
-          title:"leecodeTop",
+          title:"LeetcodeTop",
           collapsable: true,
           children:[
             {
@@ -58,10 +58,10 @@ module.exports = {
                 link:"String",
                 collapsable: true,
                 children:[
-                    ['/interview/Leecode-top/String/01', '无重复字符的最长子串'],
-                    ['/interview/Leecode-top/String/02', '字符串相加'],
-                    ['/interview/Leecode-top/String/03', '比较版本号'],
-                    ['/interview/Leecode-top/String/04', '最长回文字符串'],
+                    ['/interview/LeetcodeTop/String/01', '无重复字符的最长子串'],
+                    ['/interview/LeetcodeTop/String/02', '字符串相加'],
+                    ['/interview/LeetcodeTop/String/03', '比较版本号'],
+                    ['/interview/LeetcodeTop/String/04', '最长回文字符串'],
                     
                 ]
             },
@@ -70,13 +70,13 @@ module.exports = {
                 link:'Array',
                 collapsable: true,
                 children:[
-                    ['/interview/Leecode-top/Array/01', '合并两个有序数组'],
-                    ['/interview/Leecode-top/Array/02', '两数之和'],
-                    ['/interview/Leecode-top/Array/03', '三数之和'],
-                    ['/interview/Leecode-top/Array/04', '二分查找'],
-                    ['/interview/Leecode-top/Array/05', '搜索插入位置'],
-                    ['/interview/Leecode-top/Array/06', '在排序数组中查找元素的第一个和最后一个位置'],
-                    ['/interview/Leecode-top/Array/07', 'x 的平方根'],
+                    ['/interview/LeetcodeTop/Array/01', '合并两个有序数组'],
+                    ['/interview/LeetcodeTop/Array/02', '两数之和'],
+                    ['/interview/LeetcodeTop/Array/03', '三数之和'],
+                    ['/interview/LeetcodeTop/Array/04', '二分查找'],
+                    ['/interview/LeetcodeTop/Array/05', '搜索插入位置'],
+                    ['/interview/LeetcodeTop/Array/06', '在排序数组中查找元素的第一个和最后一个位置'],
+                    ['/interview/LeetcodeTop/Array/07', 'x 的平方根'],
                 ]
             },
             {
@@ -84,17 +84,17 @@ module.exports = {
               link:'Pointer',
               collapsable: true,
               children:[
-                ['/interview/Leecode-top/Pointer/01', '移除元素'],
-                ['/interview/Leecode-top/Pointer/02', '删除有序数组中的重复项'],
-                ['/interview/Leecode-top/Pointer/03', '移动零'],
-                ['/interview/Leecode-top/Pointer/04', '有序数组的平方'],
-                ['/interview/Leecode-top/Pointer/05', '反转字符串'],
-                ['/interview/Leecode-top/Pointer/06', '替换空格'],
-                ['/interview/Leecode-top/Pointer/07', '三数之和'],
-                ['/interview/Leecode-top/Pointer/08', '环形链表'],
-                ['/interview/Leecode-top/Pointer/09', '翻转字符串里面的单词'],
-                ['/interview/Leecode-top/Pointer/10', '链表中倒数第k个节点'],
-                ['/interview/Leecode-top/Pointer/11', '判断子序列'],
+                ['/interview/LeetcodeTop/Pointer/01', '移除元素'],
+                ['/interview/LeetcodeTop/Pointer/02', '删除有序数组中的重复项'],
+                ['/interview/LeetcodeTop/Pointer/03', '移动零'],
+                ['/interview/LeetcodeTop/Pointer/04', '有序数组的平方'],
+                ['/interview/LeetcodeTop/Pointer/05', '反转字符串'],
+                ['/interview/LeetcodeTop/Pointer/06', '替换空格'],
+                ['/interview/LeetcodeTop/Pointer/07', '三数之和'],
+                ['/interview/LeetcodeTop/Pointer/08', '环形链表'],
+                ['/interview/LeetcodeTop/Pointer/09', '翻转字符串里面的单词'],
+                ['/interview/LeetcodeTop/Pointer/10', '链表中倒数第k个节点'],
+                ['/interview/LeetcodeTop/Pointer/11', '判断子序列'],
               ]
             },
             {
@@ -102,14 +102,14 @@ module.exports = {
                 link:'BinaryTree',
                 collapsable: true,
                 children:[
-                  ['/interview/Leecode-top/BinaryTree/01', '前序遍历'],
-                  ['/interview/Leecode-top/BinaryTree/02', '中续遍历'],
-                  ['/interview/Leecode-top/BinaryTree/03', '后序遍历'],
-                  ['/interview/Leecode-top/BinaryTree/04', '求根节点到叶节点数字之和'],
-                  ['/interview/Leecode-top/BinaryTree/05', '二叉树的最大深度'],
-                  ['/interview/Leecode-top/BinaryTree/06', '路径总和'],
-                  ['/interview/Leecode-top/BinaryTree/07', '二叉树的层序遍历'],
-                  ['/interview/Leecode-top/BinaryTree/08', '翻转二叉树'],
+                  ['/interview/LeetcodeTop/BinaryTree/01', '前序遍历'],
+                  ['/interview/LeetcodeTop/BinaryTree/02', '中续遍历'],
+                  ['/interview/LeetcodeTop/BinaryTree/03', '后序遍历'],
+                  ['/interview/LeetcodeTop/BinaryTree/04', '求根节点到叶节点数字之和'],
+                  ['/interview/LeetcodeTop/BinaryTree/05', '二叉树的最大深度'],
+                  ['/interview/LeetcodeTop/BinaryTree/06', '路径总和'],
+                  ['/interview/LeetcodeTop/BinaryTree/07', '二叉树的层序遍历'],
+                  ['/interview/LeetcodeTop/BinaryTree/08', '翻转二叉树'],
                   
                 ]
             },
@@ -118,9 +118,9 @@ module.exports = {
                 link:'Sort',
                 collapsable: true,
                 children:[
-                  ['/interview/Leecode-top/Sort/01', '冒泡'],
-                  ['/interview/Leecode-top/Sort/02', '快排'],
-                  ['/interview/Leecode-top/Sort/03', '插入'],
+                  ['/interview/LeetcodeTop/Sort/01', '冒泡'],
+                  ['/interview/LeetcodeTop/Sort/02', '快排'],
+                  ['/interview/LeetcodeTop/Sort/03', '插入'],
                 ]
 
             },
@@ -129,7 +129,7 @@ module.exports = {
                 link:'SlidingWindow',
                 collapsable: true,
                 children:[
-                    ['/interview/Leecode-top/SlidingWindow/01', '长度最小的子数组'],
+                    ['/interview/LeetcodeTop/SlidingWindow/01', '长度最小的子数组'],
                 ]
             },
             {
@@ -137,10 +137,10 @@ module.exports = {
                 link:'DynamicProgramming',
                 collapsable: true,
                 children:[
-                    ['/interview/Leecode-top/DynamicProgramming/01', '爬楼梯'],
-                    ['/interview/Leecode-top/DynamicProgramming/02', '最长递增子序列'],
-                    ['/interview/Leecode-top/DynamicProgramming/03', '零钱兑换'],
-                    ['/interview/Leecode-top/DynamicProgramming/04', '最长重复子数组']
+                    ['/interview/LeetcodeTop/DynamicProgramming/01', '爬楼梯'],
+                    ['/interview/LeetcodeTop/DynamicProgramming/02', '最长递增子序列'],
+                    ['/interview/LeetcodeTop/DynamicProgramming/03', '零钱兑换'],
+                    ['/interview/LeetcodeTop/DynamicProgramming/04', '最长重复子数组']
                    
                 ]
             },
@@ -149,8 +149,8 @@ module.exports = {
                 link:'Backtracking',
                 collapsable: true,
                 children:[
-                    ['/interview/Leecode-top/Backtracking/01', '全排列'],
-                    ['/interview/Leecode-top/Backtracking/02', '组合'],
+                    ['/interview/LeetcodeTop/Backtracking/01', '全排列'],
+                    ['/interview/LeetcodeTop/Backtracking/02', '组合'],
                     
 
 
@@ -162,10 +162,10 @@ module.exports = {
                 link:'GreedyAlgorithms',
                 collapsable: true,
                 children:[
-                  ['/interview/Leecode-top/GreedyAlgorithms/01', '买卖股票的最佳时机'],
-                  ['/interview/Leecode-top/GreedyAlgorithms/02', '买卖股票的最佳时机II'],
-                  ['/interview/Leecode-top/GreedyAlgorithms/03', '最大子数组和'],
-                  ['/interview/Leecode-top/GreedyAlgorithms/04', '合并区间'],
+                  ['/interview/LeetcodeTop/GreedyAlgorithms/01', '买卖股票的最佳时机'],
+                  ['/interview/LeetcodeTop/GreedyAlgorithms/02', '买卖股票的最佳时机II'],
+                  ['/interview/LeetcodeTop/GreedyAlgorithms/03', '最大子数组和'],
+                  ['/interview/LeetcodeTop/GreedyAlgorithms/04', '合并区间'],
                 ]
 
             },
@@ -174,8 +174,8 @@ module.exports = {
                 link:'LinkedList',
                 collapsable: true,
                 children:[
-                  ['/interview/Leecode-top/LinkedList/01', '合并两个有序链表'],
-                  ['/interview/Leecode-top/LinkedList/02', '反转链表'],
+                  ['/interview/LeetcodeTop/LinkedList/01', '合并两个有序链表'],
+                  ['/interview/LeetcodeTop/LinkedList/02', '反转链表'],
                 ]
 
             },
@@ -184,7 +184,7 @@ module.exports = {
                 link:'Warehouse',
                 collapsable: true,
                 children:[
-                    ['/interview/Leecode-top/Warehouse/01', '有效的括号'],
+                    ['/interview/LeetcodeTop/Warehouse/01', '有效的括号'],
                 ]
             },
             {
