@@ -125,10 +125,12 @@ module.exports = {
 
             },
             {
-                title:"查找算法",
-                link:'Find',
+                title:"滑动窗口",
+                link:'SlidingWindow',
                 collapsable: true,
-                children:[]
+                children:[
+                    ['/interview/Leecode-top/SlidingWindow/01', '长度最小的子数组'],
+                ]
             },
             {
                 title:"动态规划",
