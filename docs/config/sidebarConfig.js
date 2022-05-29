@@ -73,12 +73,19 @@ module.exports = {
                     ['/interview/LeetcodeTop/Array/01', '合并两个有序数组'],
                     ['/interview/LeetcodeTop/Array/02', '两数之和'],
                     ['/interview/LeetcodeTop/Array/03', '三数之和'],
-                    ['/interview/LeetcodeTop/Array/04', '二分查找'],
-                    ['/interview/LeetcodeTop/Array/05', '搜索插入位置'],
-                    ['/interview/LeetcodeTop/Array/06', '在排序数组中查找元素的第一个和最后一个位置'],
-                    ['/interview/LeetcodeTop/Array/07', 'x 的平方根'],
-                    ['/interview/LeetcodeTop/Array/08', '岛屿数量'],
+                    ['/interview/LeetcodeTop/Array/04', '岛屿数量'],
 
+                ]
+            },
+            {
+                title:"二分法",
+                link:'dichotomy',
+                collapsable: true,
+                children:[
+                    ['/interview/LeetcodeTop/dichotomy/01', '二分查找'],
+                    ['/interview/LeetcodeTop/dichotomy/02', '搜索插入位置'],
+                    ['/interview/LeetcodeTop/dichotomy/03', '在排序数组中查找元素的第一个和最后一个位置'],
+                    ['/interview/LeetcodeTop/dichotomy/04', 'x 的平方根'],
                 ]
             },
             {
