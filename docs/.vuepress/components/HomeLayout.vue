@@ -22,7 +22,7 @@
         <ul class="list">
           <li class="item">
             <a class="link"
-               href="/interview/javascript/common">JavaScript</a>
+               href="/interview/javascript/common">前进</a>
           </li>
           <li class="item">
             <a class="link"
@@ -42,7 +42,7 @@
       <Loading></Loading>
     </div>
     <img class="home-latout-bg"
-         src="https://api.ixiaowai.cn/gqapi/gqapi.php"
+         src="https://www.bing.com/th?id=OHR.MarathonMedoc_ROW2237999704_1920x1080.webp&qlt=50"
          alt="Bing每日图片超高清" />
   </div>
 </template>

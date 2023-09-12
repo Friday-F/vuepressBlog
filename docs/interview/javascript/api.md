@@ -1,4 +1,126 @@
-## 1.instanceof 手动实现
+## 1.bind,call,apply 操作符
+
+- bind
+
+```js
+Function.prototype.myBind = function(context, ...outerArgs) {
+  let fn = this
+  function res(...innerArgs) {
+    if (this instanceof res) {
+      // new操作符执行时
+      fn.call(this, ...outerArgs, ...innerArgs)
+    } else {
+      // 普通bind
+      fn.call(context, ...outerArgs, ...innerArgs)
+    }
+  }
+  res.prototype = this.prototype
+  return res
+}
+```
+
+- call
+
+```js
+Function.prototype.myCall = function(context) {
+  const args = [...arguments].slice(1)
+  let obj = contxt || window
+  obj.fn = this
+  let args = [...arguments].slice(1)
+  let res = obj.fn(...args)
+  delete obj.fn
+  return res
+}
+```
+
+- apply
+
+```js
+Function.prototype.myApply = function(context, args = []) {
+  const obj = context || window
+  obj.fn = this
+  const res = obj.fn.(...args)
+  delete obj.fn
+  return res
+}
+```
+## 2.forEach
+```js
+Array.prototype.myForEach=function(callback) {
+    let arr = this;
+    for (let i = 0;i<arr.length;i++){
+        callback(arr[i],i,arr)//循环数组元素,为回调函数传入参数
+    }
+}
+```
+## 3.map 手动实现
+
+```js
+Array.prototype.meMap = function(fn, contxt) {
+  let arr = this
+  let result = []
+  for (let i = 0; i < arr.length; i++) {
+    let item = fn.call(contxt, arr[i], i, arr)
+    result.push(item)
+  }
+  return result
+}
+```
+## 4.filter 手动实现
+```js
+Array.prototype.meFilter = function (callback) {
+    const res = []
+    let arr = this;
+    for (let i = 0; i < arr.length; i++) {
+        callback(arr[i], i, arr) && res.push(arr[i])
+    }
+    return res
+}
+```
+## 5.every 手动实现
+```js
+Array.prototype.meEvery = function (callback) {
+    let flag = true;
+    let arr = this;
+    for (let i = 0; i < arr.length; i++) {
+        flag = callback(arr[i], i, arr)
+        if (!flag) break
+    }
+
+    return flag
+}
+```
+## 6.some 手动实现
+```js
+Array.prototype.sx_some = function (callback) {
+    let flag = false
+    let arr = this;
+    for (let i = 0; i < arr.length; i++) {
+        flag = callback(arr[i], i, arr)
+        if (flag) break
+    }
+
+    return flag
+}
+```
+## 7.reduce 手动实现
+```js
+Array.prototype.sx_reduce = function (callback, initValue) {
+    let start = 0, pre
+    if (initValue) {
+        pre = initValue
+    } else {
+        pre = this[0]
+        start = 1
+    }
+    for (let i = start; i < this.length; i++) {
+        pre = callback(pre, this[i], i, this)
+    }
+    return pre
+}
+```
+
+## 8.instanceof 手动实现
 
 - 能在实例的 原型对象链 中找到该构造函数的 prototype 属性所指向的 原型对象，就返回 true
 
@@ -19,21 +141,9 @@ console.log(instance_of([], Array)) // true
 console.log(instance_of([], String)) // false
 ```
 
-## 2.map 手动实现
 
-```js
-Array.prototype.meMap = function(fn, contxt) {
-  let arr = this
-  let result = []
-  for (let i = 0; i < arr.length; i++) {
-    let item = fn.call(contxt, arr[i], i, arr)
-    result.push(item)
-  }
-  return result
-}
-```
 
-## 3.new 操作符
+## 9.new 操作符
 
 ### 1. 是什么
 
@@ -123,54 +233,69 @@ let myNew = function(Func, ...argument) {
 }
 ```
 
-## 4.bind,call,apply 操作符
-
-- bind
-
+## 10.Promise.all()
 ```js
-Function.prototype.myBind = function(context, ...outerArgs) {
-  let fn = this
-  function res(...innerArgs) {
-    if (this instanceof res) {
-      // new操作符执行时
-      fn.call(this, ...outerArgs, ...innerArgs)
-    } else {
-      // 普通bind
-      fn.call(context, ...outerArgs, ...innerArgs)
-    }
+  let promiseAll = (promises){
+    let result = [];
+    let index = 0;
+    return new Promise((resolve,reject)=>{
+      for(let i = 0;i<promises;i++){
+        Promise.resolve(promises[i])
+          .then(res=>{
+            result[i] = res;
+            index+=1;
+            if(index === promises.length){
+              resolve(result);
+            }
+          })
+          .catch(err=>{
+            reject(err);
+          })
+      }
+    })
   }
-  res.prototype = this.prototype
-  return res
-}
 ```
-
-- call
-
+## 11.sleep函数
 ```js
-Function.prototype.myCall = function(context) {
-  const args = [...arguments].slice(1)
-  let obj = contxt || window
-  obj.fn = this
-  let args = [...arguments].slice(1)
-  let res = obj.fn(...args)
-  delete obj.fn
-  return res
-}
+let sleep = function (await) { 
+  let start = new Date().getTime();
+  while (new Date().getTime() - start < await) {
+    continue;
+  }
+  }
 ```
 
-- apply
-
+## 12.函数柯力化
+- 函数柯力化： 将原来多个参数的函数，转变成一系列使用一个参数的函数
+- 函数柯力化的原理；用闭包把参数保存起来，当参数的长度等于原函数时，执行原函数
 ```js
-Function.prototype.myApply = function(context, args = []) {
-  const obj = context || window
-  obj.fn = this
-  const res = obj.fn.(...args)
-  delete obj.fn
-  return res
+let curry = function (fn) {
+  // fn.length 获取形参的长度
+  if(fn.length <= 1) return fn();
+  // 自定义迭代器
+  let generator = function (...args) { 
+    // 判断已传入的参数与函数定义的参数的个数是否相等
+    if(fn.length === args.length){
+      return fn(...args)
+    }else{
+      // 不相等，继续迭代
+      return (...args1)=>{
+        return generator(...args,...args1)
+      }
+    }
+
+    }
+    return generator
 }
+
+let fn = function (a,b,c) { 
+  return a+b+c;
+}
+let fn1 = curry(fn);
+console.log(fn1(1)(2)(3))
 ```
 
-## 5.用 setTimeout 实现 setInterval
+## 13.用 setTimeout 实现 setInterval
 
 ```js
 let mySetInterval = function(fn, delay) {

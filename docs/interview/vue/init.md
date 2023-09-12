@@ -62,11 +62,8 @@ Object.defineProperty(obj, key, {
 
 ## 4.Vue 中是如何检测数组变化?
 
-::: tip Vue 中是如何检测数组变化?
-
 1. 使用函数劫持的方式，重写了数组的方法
 2. `Vue`将`data`中的数组，进行了原型链重写。指向了自己定义的数组原型方法，这样当调用数组`api`时，可以通知依赖更新.如果数组中包含着引用类型。会对数组中的引用类型再次进行监控。
-   :::
    <br />
    <br />
    <img src='./images/array.png' />
@@ -198,33 +195,34 @@ function createComputedGetter(key) {
 ### 每个生命周期的用途
 
 - `beforeCreate`
-  - 在实例初始化之后，数据观测(data observer) 之前被调用。
+  - （创建前）：数据观测和初始化事件还未开始，此时 data 的响应式追踪、event/watcher 都还没有被设置，也就是说不能访问到data、computed、watch、methods 上的方法和数据。
 - `created`
-  - 实例已创建完成后调用,在这一步，实例已经完成以下配置:数据观测(observer)，属性和方法的运算，watch/event 时间回调，这里没有`$el`
+  - （创建后） ：实例创建完成，实例上配置的 options 包括 data、computed、watch、methods 等都配置完成，但是此时渲染得节点还未挂载到 DOM，所以不能访问到 $el 属性。
 - `beforeMount`
-  - 在挂在之前被调用，相关的 render 首次被调用
+  - （挂载前）：在挂载开始之前被调用，相关的render函数首次被调用。实例已完成以下的配置：编译模板，把data 里面的数据和模板生成html。此时还没有挂载html 到页面上。
 - `mounted`
-  - `el`被创建的`vm.$el`所替代,并挂在到实例上去之后调用该钩子
+  - （挂载后）：在 el 被新创建的 vm.\$el 替换，并挂载到实例上去之后调用。实例已完成以下的配置：用上面编译好的 html 内容替换el 属性指向的DOM 对象。完成模板中的 html 渲染到html 页面中。此过程中进行ajax 交互。
 - `beforeUpdate`
-  - 数据更新时调用，发生在虚拟 DOM 重现渲染和打补丁之前
+  - （更新前）：响应式数据更新时调用，此时虽然响应式数据更新了，但是对应的真实 DOM 还没有被渲染。
 - `updated`
-  - 由于数据更改导致虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子
+  - （更新后） ：在由于数据更改导致的虚拟 DOM 重新渲染和打补丁之后调用。此时 DOM 已经根据响应式数据的变化更新了。调用时，组件 DOM 已经更新，所以可以执行依赖于 DOM 的操作。然而在大多数情况下，应该避免在此期间更改状态，因为这可能会导致更新无限循环。该钩子在服务器端渲染期间不被调用。
 - `beforeDestroy`
-  - 实例销毁之前调用，在这一步，实例还可以完全使用
+  - （销毁前）：实例销毁之前调用。这一步，实例仍然完全可用，this 仍能获取到实例。
 - `destroyed`
-  - `Vue` 实例销毁后调用。调用后，`Vue` 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。 该钩子在服务器端渲染期间不被调用。
+  - 销毁后）：实例销毁后调用，调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。该钩子在服务端渲染期间不被调用。
 
 ### 每个声明周期需要做的的事情
 
 - `created`
-  - 实例已创建完成，可以进行一些数据和资源的请求
+  - 实例已经创建完成，因为它是最早触发的原因可以进行一些数据，资源的请求。
 - `mounted`
-  - 实例已创建完成,可以进行 DOM 操作
+  - 实例已经挂载完成，可以进行一些DOM操作
 - `beforeUpdate`
   - 可以在这个钩子中进一步地更改状态，这不会触发附加的重渲染过程。
 - `updated`
-  - 可以执行依赖于 DOM 的操作。然而在大多数情况下，你应该避免在此期间更改状态，因为这可能会导致更新无限循环。 该钩子在服务器端渲染期间不被调用
-- `destroyed` - 可以执行一些优化操作,清空定时器，解除绑定事件
+  - 可以执行依赖于 DOM 的操作。然而在大多数情况下，你应该避免在此期间更改状态，因为这可能会导致更新无限循环。 该钩子在服务器端渲染期间不被调用。
+-`destroyed` 
+  - 可以执行一些优化操作,清空定时器，解除绑定事件
   <br />
   <br />
   <img src='./images/life.png' />
@@ -320,91 +318,65 @@ console.log(r1.render)
 - 5. `Event Bus` 实现跨组件通信
 - 6. `Vuex`状态管理实现通信
 
-## 12.`Vue`中常见性能优化
+## 12. vue中模板编译原理？
+  - 解析阶段：使用大量的正则表达式对template 字符串进行解析，将标签、指令、属性等转化为抽象语法树AST。
+  - 优化阶段：遍历AST，找到其中的一些静态节点并进行标记，方便在页面重渲染的时候进行diff 比较时，直接跳过这一些静态节点，优化runtime 的性能。
+  - 生成阶段：将最终的AST 转化为render 函数字符串。
 
-### 1.编码优化
+## 13. Vue.mixin的使用场景和原理
+  - Vue.mixin的作用就是抽离公共的业务逻辑，原理类似”对象的继承“，当组件初始化时会调用mergeOptions方法进行合并，并采用策略模式针对不同的属性进行合并。
+  - Mixin的生命周期会在父组件生命周期之前执行，如果混入的数据和本身组件中的数据冲突，会采用”就近原则“以组件的数据为准。
+  - mixin中有很多缺陷：”命名冲突“、依赖问题、数据来源问题，这里强调一下mixin的数据是不会被共享的。
 
-- 1. 不要将所有的数据都放在 data 中，data 中的数据都会增加 getter 和 setter，会收集对应的 watcher
-- 2. `vue` 在 v-for 时给每项元素绑定事件需要用事件代理
-- 3. `SPA`页面采用 keep-alive 缓存组件
-- 4. 拆分组件( 提高复用性、增加代码的可维护性,减少不必要的渲染 )
-- 5. `v-if` 当值为 false 时内部指令不会执行,具有阻断功能，很多情况下使用 v-if 替代 v-show
-- 6. `key`保证唯一性 ( 默认`vue`会采用就地复用策略 )
-- 7. `Object.freeze` 冻结数据
-- 8. 合理使用路由懒加载、异步组件
-- 9. 尽量采用 runtime 运行时版本
-- 10. 数据持久化的问题 （防抖、节流）
+## 14. nextTick实现原理
+```js
+let timerFunc // nextTick异步实现fn
 
-### 2.`Vue`加载性能优化:
-
-1. 第三方模块按需导入 (`babel-plugin-component`)
-
-2. 滚动到可视区域动态加载 ( <a href='https://tangbc.github.io/vue-virtual-scroll-list' target='_blank'>https://tangbc.github.io/vue-virtual-scroll-list</a> )
-3. 图片懒加载 (<a target='_blank' href='https://github.com/hilongjw/vue-lazyload.git'>https://github.com/hilongjw/vue-lazyload.git</a>)
-
-### 3.用户体验
-
-1. `app-skeleton`骨架屏
-2. `app-shell`app 壳
-3. `pwa`
-
-### 4.`SEO`优化：
-
-1. 预渲染插件 `prerender-spa-plugin`
-2. 服务端渲染`ssr`
-
-### 5.打包优化:
-
-1. 使用`cdn`的方式加载第三方模块
-2. 多线程打包 `happypack`
-3. `splitChunks` 抽离公共文件
-4. `sourceMap`生成
-
-### 6.缓存，压缩
-
-1. 客户端缓存、服务端缓存
-2. 服务端`gzip`压缩
-
-## 13.`Vue3.0`你知道有哪些改进?
-
-1. `Vue3`采用了 TS 来编写
-2. 支持 `Composition API`
-3. `Vue3`中响应式数据原理改成`proxy`
-4. `vdom`的对比算法更新，只更新`vdom`的绑定了动态数据的部分
-
-## 14.\$router 和 route 的区别
-
-1. \$router 是 VueRouter 的一个对象，通过 Vue.use(VueRouter)和 Vu 构造函数得到一个 router 的实例对象，这个对象中是一个全局的对象，他包含了所有的路由，包含了许多关键的对象和属性。
-   <br />
-   <br />
-   <img src='./images/router.png' />
-   <br />
-
-### 以 history 对象来举例：
-
-- \$router.push({path:'home'})，本质是向 history 栈中添加一个路由，在我们看来是切换路由，但本质是在添加一个 history 记录
-
-- \$router.replace({path:'home'})，//替换路由，没有历史记录
-
-2. $route是一个跳转的路由对象，每一个路由都会有一个$route 对象，是一个局部的对象，可以获取对应的 name，path，params，query 等
-   <br />
-   <br />
-   <img src='./images/route.png' />
-   <br />
-
-### 这两者不同的结构可以看出两者的区别，他们的一些属性是不同的。
-
-- 1. \$route.path 字符串，等于当前路由对象的路径，会被解析为绝对路径，如/home/ews
-
-- 2. \$route.params 对象，含路有种的动态片段和全匹配片段的键值对，不会拼接到路由的 url 后面
-
-- 3. \$route.query 对象，包含路由中查询参数的键值对。会拼接到路由 url 后面
-
-- 4. \$route.router 路由规则所属的路由器
-
-- 5. \$route.matchd 数组，包含当前匹配的路径中所包含的所有片段所对象的配置参数对象
-
-- 6. \$route.name 当前路由的名字，如果没有使用具体路径，则名字为空
+if (typeof Promise !== "undefined" && isNative(Promise)) {
+  // Promise方案
+  const p = Promise.resolve()
+  timerFunc = () => {
+    p.then(flushCallbacks) // 将flushCallbacks包装进Promise.then中
+  }
+  isUsingMicroTask = true
+} else if (
+  !isIE &&
+  typeof MutationObserver !== "undefined" &&
+  (isNative(MutationObserver) ||
+    MutationObserver.toString() === "[object MutationObserverConstructor]")
+) {
+  // MutationObserver方案
+  let counter = 1
+  const observer = new MutationObserver(flushCallbacks) // 将flushCallbacks作为观测变化的cb
+  const textNode = document.createTextNode(String(counter)) // 创建文本节点
+  // 观测文本节点变化
+  observer.observe(textNode, {
+    characterData: true,
+  })
+  // timerFunc改变文本节点的data，以触发观测的回调flushCallbacks
+  timerFunc = () => {
+    counter = (counter + 1) % 2
+    textNode.data = String(counter)
+  }
+  isUsingMicroTask = true
+} else if (typeof setImmediate !== "undefined" && isNative(setImmediate)) {
+  // setImmediate方案
+  timerFunc = () => {
+    setImmediate(flushCallbacks)
+  }
+} else {
+  // 最终降级方案setTimeout
+  timerFunc = () => {
+    setTimeout(flushCallbacks, 0)
+  }
+}
+```
+- Vue的数据频繁变化，但为什么dom只会更新一次？
+  1. nextTick是Vue提供的一个全局API,是在下次DOM更新循环结束之后执行延迟回调，在修改数据之后使用$nextTick，则可以在回调中获取更新后的DOM；
+  2. Vue在更新DOM时是异步执行的。只要侦听到数据变化，Vue将开启1个队列，并缓冲在同一事件循环中发生的所有数据变更。如果同一个watcher被多次触发，只会被推入到队列中-次。这种在缓冲时去除重复数据对于避免不必要的计算和DOM操作是非常重要的。
+  3. nextTick方法会在队列中加入一个回调函数，确保该函数在前面的dom操作完成后才调用；
+- 实现原理
+  - 在下次 DOM 更新循环结束之后执行延迟回调，在修改数据之后立即使用 nextTick 来获取更新后的 DOM。 nextTick主要使用了宏任务和微任务。 根据执行环境分别尝试采用Promise、MutationObserver、setImmediate，如果以上都不行则采用setTimeout定义了一个异步方法，多次调用nextTick会将方法存入队列中，通过这个异步方法清空当前队列。
 
 ## 15.Vue.use()执行原理
 
@@ -474,85 +446,140 @@ export function toArray(list: any, start?: number): Array<any> {
 
 - 3.在 diff 算法中，Vue 使用 key 值来判断元素是否发生更改，以达到重复使用页面上所有可复用元素，特别是在列表渲染中，Vue 通过 key 值来判断元素是否需要更新，如果元素只是更换位置的话，就不需要重新渲染，这也是为什么我们在列表渲染的时候为什么始终不建议使用元素的索引值来作为 key 值，因为索引值始终会发生改变，会增加 Vue 的渲染成本
 
-## 17.发布订阅模式
+## 17. 路由
+  - 创建的页面路由会与该页面形成一个路由表（key value形式，key为该路由，value为对应的页面）
+  - vue-router原理是监听 URL 的变化，然后匹配路由规则，会用新路由的页面替换到老的页面 ，无需刷新
+  - 目前单页面使用的路由有两种实现方式: hash 模式、history 模式
+  - hash模式（路由中带#号），通过hashchange事件来监听路由的变化
+  window.addEventListener('hashchange', （)=>{})
+  - history 模式，利用了pushState() 和replaceState() 方法，实现往history中添加新的浏览记录、或替换对应的浏览记录
+  - 通过popstate事件来监听路由的变化，window.addEventListener('popstate', （)=>{})
 
-```js
-class EventBus {
-  constructor() {
-    this.eventObj = {}
-  }
-  on(name, cb) {
-    if (this.eventObj[name]) {
-      this.eventObj[name].push(cb)
-    } else {
-      this.eventObj[name] = [cb]
-    }
-  }
-  emit(name, ...params) {
-    if (!this.eventObj[name]) {
-      console.log("无事件")
-    } else {
-      this.eventObj[name].map((cb) => cb(...params))
-    }
-  }
-  once(name, cb) {
-    let self = this
-    function handler(params) {
-      cb.apply(self, [params])
-      self.off(name)
-    }
-    this.on(name, handler)
-  }
-  off(name) {
-    delete this.eventObj[name]
-  }
-}
-```
+## 18. Keep-alive
+- keep-alive可以实现组件的缓存，当组件切换时不会对当前组件进行卸载,常用的2个属性include/exclude,2个生命周期activated,deactivated
+- 原理：
+  Vue.js内部将DOM节点抽象成了一个个的VNode节点，keep-alive组件的缓存也是基于VNode节点的而不是直接存储DOM结构。它将满足条件（pruneCache与pruneCache）的组件在cache对象中缓存起来，在需要重新渲染的时候再将vnode节点从cache对象中取出并渲染。
 
-## 18.nextTick
+## 19.Vue中diff算法的原理
+  - Vue中的diff算法是平级比较，时间复杂度是O(n)，不考虑跨级比较的情况。内部采用深度递归的方式+双指针的方式进行比较。
+  - 先同级比较，再比较子节点
+  - 先判断一方有儿子没儿子的情况；然后比较都有儿子的情况：先比较是否是相同节点
+  - 相同节点比较属性，并复用老节点
+  - 比较儿子节点，考虑老节点和新节点儿子的情况
+  - 优化比较：头头、尾尾、头尾、尾头
+  - 比对查找进行复用
 
-```js
-let timerFunc // nextTick异步实现fn
+## 20. vuex使用场景
+  - Vuex 是专门为 Vue.js 设计的状态管理库，它采用集中式存储管理应用的所有组件的状态。每一个 Vuex 应用的核心就是 store（仓库）。
+  - 把应用的所有组件的状态抽取出来，以一个全局单例模式在应用外部采用集中式存储管理。
+  - 原理
+    - vuex中的store本质就是一个没有template模板的隐藏式的vue组件
+    - vuex是利用vue的mixin混入机制，在beforeCreate钩子前混入vuexInit方法
+    - vuexInit方法实现将vuex store注册到当前组件的$store属性上
+    - vuex的state作为一个隐藏的vue组件的data，定义在state上面的变量，相当于这个vue实例的data属性，凡是定义在data上的数据都是响应式的
+    - 当页面中使用了vuex state中的数据，就是依赖收集的过程，当vuex中state中的数据发生变化，就通过调用对应属性的dep对象的notify方法，去修改视图变化
+## 21. vue3和vue2的区别
+  -  使用proxy取代Object.defineproperty，解决了vue2中新增属性监听不到的问题，同时proxy也支持数组，不需要像vue2那样对数组的方法做拦截处理
+  - diff方法优化
+    - vue3新增了静态标记（patchflag），虚拟节点对比时，就只会对比这些带有静态标记的节点
+  - 静态提升
+    - vue3对于不参与更新的元素，会做静态提升，只会被创建一次，在渲染时直接复用即可。vue2无论元素是否参与更新，每次都会重新创建然后再渲染
+  - 事件侦听器缓存
+    - 默认情况下onClick会被视为动态绑定，所以每次都会追踪它的变化，但是因为是同一个函数，所以不用追踪变化，直接缓存起来复用即可
+  - 按需引入，通过treeSharking 体积比vue2.x更小
+  - 组合API（类似react hooks），可以将data与对应的逻辑写到一起，更容易理解
+  - 更好的Ts支持
+## 22. proxy相比于Object.defineProperty性能的提升有哪些
+  1. 初始化性能优化：Vue 2 在初始化响应式数据时，会递归遍历对象的所有属性并使用 Object.defineProperty 为每个属性添加 getter 和 setter。这样的初始化过程会产生大量的 getter 和 setter，对于大规模的对象或数据，初始化时间会较长。而在 Vue 3 中，使用 Proxy 对象进行拦截，初始化性能得到了显著提升，因为 Proxy 是在整个对象级别上进行拦截，无需遍历每个属性。
+  2. 深层属性监听优化：在 Vue 2 中，对于深层嵌套的属性，需要通过递归方式为每个属性添加响应式处理，这在大型对象上可能会导致性能下降。而在 Vue 3 中，Proxy 可以递归地拦截整个对象的操作，无需为每个属性单独处理，从而提高了深层属性监听的性能。
+  3. 删除属性性能优化：在 Vue 2 中，当删除一个属性时，需要通过 Vue.$delete 或者 Vue.delete 方法来触发更新。这是因为 Vue 2 使用的 Object.defineProperty 无法拦截属性的删除操作。而在 Vue 3 中，使用 Proxy 可以直接拦截属性的删除操作，从而简化了删除属性的处理逻辑，并提高了性能。
+  4. 动态添加属性性能优化：在 Vue 2 中，动态添加新属性需要通过 Vue.set 方法来触发更新，否则新添加的属性将不会是响应式的。而在 Vue 3 中，Proxy 可以直接拦截动态添加属性的操作，并将其设置为响应式属性，无需额外的处理方法，提高了性能和代码的简洁性。
+- 综上所述，Vue 3 中使用 Proxy 替代了 Vue 2 中的 Object.defineProperty，通过 Proxy 的特性，提供了更好的性能优化和更灵活的响应式处理，尤其在初始化性能、深层属性监听、删除属性和动态添加属性等方面得到了明显的提升。
+## 23. pinia
+  pinia其实就是 Vuex5，它和 Vuex 的主要区别有以下几点
+  1. Pinia 使用更简单，更符合开发者的开发习惯
+  2. pinia中没有了mutations,状态state的修改可以直接进行修改，或者在actions中修改，或者使用它的$patch方法进行修改
+  3. pinia中没有了modules,如果想使用多个 store，直接使用defineStore定义多个 store 传入不同的 id 即可
+  4. 更好的 TS 支持，不需要创建自定义的复杂包装器来支持 TS
 
-if (typeof Promise !== "undefined" && isNative(Promise)) {
-  // Promise方案
-  const p = Promise.resolve()
-  timerFunc = () => {
-    p.then(flushCallbacks) // 将flushCallbacks包装进Promise.then中
-  }
-  isUsingMicroTask = true
-} else if (
-  !isIE &&
-  typeof MutationObserver !== "undefined" &&
-  (isNative(MutationObserver) ||
-    MutationObserver.toString() === "[object MutationObserverConstructor]")
-) {
-  // MutationObserver方案
-  let counter = 1
-  const observer = new MutationObserver(flushCallbacks) // 将flushCallbacks作为观测变化的cb
-  const textNode = document.createTextNode(String(counter)) // 创建文本节点
-  // 观测文本节点变化
-  observer.observe(textNode, {
-    characterData: true,
-  })
-  // timerFunc改变文本节点的data，以触发观测的回调flushCallbacks
-  timerFunc = () => {
-    counter = (counter + 1) % 2
-    textNode.data = String(counter)
-  }
-  isUsingMicroTask = true
-} else if (typeof setImmediate !== "undefined" && isNative(setImmediate)) {
-  // setImmediate方案
-  timerFunc = () => {
-    setImmediate(flushCallbacks)
-  }
-} else {
-  // 最终降级方案setTimeout
-  timerFunc = () => {
-    setTimeout(flushCallbacks, 0)
-  }
-}
-```
+<a href='https://pinia.vuejs.org/' target='_blank'>pinia</a>
 
-- nextTick 中的回调是在下次 DOM 更新循环结束之后执行的延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。原理就是异步方法（promise、mutationObserver、setImmediate、setTimeout）；
-- vue 多次更新数据，最终会进行批处理更新。内部调用的就是 nextTick 实现了延迟更新，用户自定义的 nextTick 中的回调会被延迟到更新完成后调用，从而可以获取更新后的 DOM。
+## 24.`Vue`中常见性能优化
+
+### 1.编码优化
+
+- 1. 不要将所有的数据都放在 data 中，data 中的数据都会增加 getter 和 setter，会收集对应的 watcher
+- 2. `vue` 在 v-for 时给每项元素绑定事件需要用事件代理
+- 3. `SPA`页面采用 keep-alive 缓存组件
+- 4. 拆分组件( 提高复用性、增加代码的可维护性,减少不必要的渲染 )
+- 5. `v-if` 当值为 false 时内部指令不会执行,具有阻断功能，很多情况下使用 v-if 替代 v-show
+- 6. `key`保证唯一性 ( 默认`vue`会采用就地复用策略 )
+- 7. `Object.freeze` 冻结数据
+- 8. 合理使用路由懒加载、异步组件
+- 9. 尽量采用 runtime 运行时版本
+- 10. 数据持久化的问题 （防抖、节流）
+
+### 2.`Vue`加载性能优化:
+
+1. 第三方模块按需导入 (`babel-plugin-component`)
+
+2. 滚动到可视区域动态加载 ( <a href='https://tangbc.github.io/vue-virtual-scroll-list' target='_blank'>https://tangbc.github.io/vue-virtual-scroll-list</a> )
+3. 图片懒加载 (<a target='_blank' href='https://github.com/hilongjw/vue-lazyload.git'>https://github.com/hilongjw/vue-lazyload.git</a>)
+
+### 3.用户体验
+
+1. `app-skeleton`骨架屏
+2. `app-shell`app 壳
+3. `pwa`
+
+### 4.`SEO`优化：
+
+1. 预渲染插件 `prerender-spa-plugin`
+2. 服务端渲染`ssr`
+
+### 5.打包优化:
+
+1. 使用`cdn`的方式加载第三方模块
+2. 多线程打包 `happypack`
+3. `splitChunks` 抽离公共文件
+4. `sourceMap`生成
+
+### 6.缓存，压缩
+
+1. 客户端缓存、服务端缓存
+2. 服务端`gzip`压缩
+
+## 24.\$router 和 route 的区别
+
+1. \$router 是 VueRouter 的一个对象，通过 Vue.use(VueRouter)和 Vu 构造函数得到一个 router 的实例对象，这个对象中是一个全局的对象，他包含了所有的路由，包含了许多关键的对象和属性。
+   <br />
+   <br />
+   <img src='./images/router.png' />
+   <br />
+
+### 以 history 对象来举例：
+
+- \$router.push({path:'home'})，本质是向 history 栈中添加一个路由，在我们看来是切换路由，但本质是在添加一个 history 记录
+
+- \$router.replace({path:'home'})，//替换路由，没有历史记录
+
+2. $route是一个跳转的路由对象，每一个路由都会有一个$route 对象，是一个局部的对象，可以获取对应的 name，path，params，query 等
+   <br />
+   <br />
+   <img src='./images/route.png' />
+   <br />
+
+### 这两者不同的结构可以看出两者的区别，他们的一些属性是不同的。
+
+- 1. \$route.path 字符串，等于当前路由对象的路径，会被解析为绝对路径，如/home/ews
+
+- 2. \$route.params 对象，含路有种的动态片段和全匹配片段的键值对，不会拼接到路由的 url 后面
+
+- 3. \$route.query 对象，包含路由中查询参数的键值对。会拼接到路由 url 后面
+
+- 4. \$route.router 路由规则所属的路由器
+
+- 5. \$route.matchd 数组，包含当前匹配的路径中所包含的所有片段所对象的配置参数对象
+
+- 6. \$route.name 当前路由的名字，如果没有使用具体路径，则名字为空
+

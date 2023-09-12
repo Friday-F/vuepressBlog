@@ -1,0 +1,72 @@
+### 优化
+  - HTML优化
+    * 语义化HTML：代码清晰简洁，利于搜索引擎优化，便于团队开发
+    * 提前声明字符编码，让浏览器快速确定如何渲染网页内容
+    * 减少html嵌套关系、减少dom节点数量
+    * 删除多余空格、空行、注释及无用的属性等
+    * html减少iframe的使用（iframe会阻塞onload事件，可以动态加载iframe）
+    * 避免使用table布局
+  
+  - CSS优化
+    * 减少伪类选择器、减少样式层数、减少使用通配符
+    * 删除空行、注释，对css进行压缩
+    * 使用外链css，可以对css进行缓存
+    * 添加媒体字段，只加载有效的css文件
+
+  - JS优化
+    - 通过async、defer异步加载文件
+    - 减少dom操作，缓存访问过的元素
+    - 操作不直接应用到dom上，而应用到虚拟dom上，最后一次性的应用到dom上
+    - 使用webworker解决程序阻塞问题
+    - 使用IntersectionObserver处理图片的滚动加载
+
+  - 网络优化
+    * 减少http请求，合并js、css，合理内嵌css、js
+    * 合理设置服务端缓存，提高服务器处理速度（强制缓存、对比缓存）
+    * 避免重定向，重定向会降低响应速度（301，302）
+    * 使用dns-prefetch，进行DNS域解析
+    * 采用域名分片技术，将资源放到不同域名下，解决同一个域名最多处理6个TCP连接的问题
+    * 采用CDN加速，加快访问速度。（指派最近，高度可用）
+    * gzip压缩优化，对传输资源进行体积压缩（html、js、css）=>Content-Encoding:gzip
+    * 加载数据优先级：preload（预先请求当前页面需要的资源）prefetch（将来页面中使用的资源）将数据缓存到HTTP缓存中
+  
+  - 图片优化
+    * 避免空src的图片
+    * 减小图片尺寸，解决用户流量
+    * img标签设置alt属性，提升图片加载失败时的用户体验
+    * 原生的loading：lazy图片懒加载
+    * 不通环境下，加载不通尺寸和像素的图片
+    * 对于较大图片可以考虑渐采用渐进式图片（ps导出渐进式）
+    * 采用base64URL，减少图片请求
+    * 采用雪碧图合并图标图片等
+  
+  - Vue
+    - 编码优化
+          * 不要将所有的数据都放在data中，data中的数据都会增加getter和setter，会收集对应的watcher（Object.freeze冻结数据）
+          * vue在v-for时给每项元素绑定事件需要用事件代理
+          * SPA页面采用keep-alive缓存组件
+          * 拆分组件（提高复用性、增加代码的可维护性，减少不必要的渲染）
+          * v-if当值为false时内部指令不会执行，具有阻断功能，很多情况下使用v-if替代v-show
+          * key保证唯一性
+          * 合理使用路由懒加载、异步组件
+          * 尽量采用runtime运行时版本
+          * 数据持久化的问题（防抖、节流）
+    - vue加载性能优化
+        * 第三方模块按需加载（babel-plugin-component）
+        * 滚动到可视区域动态加载
+        * 图片懒加载
+    - 用户体验
+        * app-skeleton骨架屏（loading）
+        * app-shell app壳（先加载导航和底部）
+        * pwa：serviceworker
+    - SEO优化
+        * 预渲染插件：prerender-spa-plugin
+        * 服务端渲染ssr
+    - 打包优化
+        * 使用cdn的方式加载第三方模块
+        * 多线程打包happypack
+        * splitChunks抽离公共文件
+        * sourcemap生成
+    - 缓存
+        * 客户端缓存、服务端缓存
+        * 服务端gzip压缩

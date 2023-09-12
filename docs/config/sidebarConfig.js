@@ -1,17 +1,23 @@
 module.exports = {
     '/interview/':[
         {
+            title: 'Css',
+            collapsable: true,
+            children: [
+                ['/interview/css/common', 'css'],
+            ]
+        },
+        {
             title: 'JavaScript',
             collapsable: true,
             children: [
-                ['/interview/javascript/common', '1.常见面试题'],
-                ['/interview/javascript/api', '2.原生Api'],
-                ['/interview/javascript/extend', '3.继承'],
-                ['/interview/javascript/http', '4.Http'],
+                ['/interview/javascript/common', '1.JS基础'],
+                ['/interview/javascript/util', '2.手写js'],
+                ['/interview/javascript/api', '3.原生Api'],
+                ['/interview/javascript/patterns', '4.设计模式'],
                 ['/interview/javascript/browser','5.浏览器'],
-                ['/interview/javascript/prototype','6.原型链'],
+                ['/interview/javascript/http', '6.Http'],
                 ['/interview/javascript/promise','7.Promise'],
-                ['/interview/javascript/closure','8.闭包']
             ]
         },
         {
@@ -33,6 +39,14 @@ module.exports = {
                 ['/interview/vue/vuex', 'Vuex'],
                 ['/interview/vue/render', 'render'],
                 ['/interview/vue/commonTable', 'elementUi搭配vue封装table组件']
+            ]
+        },
+        {
+            title:"other",
+            collapsable: true,
+            children:[
+                ['/interview/other/optimize', '1.优化'],
+                ['/interview/other/init', '1.其他'],
             ]
         },
         {
