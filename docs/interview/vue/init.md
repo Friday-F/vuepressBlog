@@ -232,7 +232,31 @@ function createComputedGetter(key) {
   <br />
   <img src='./images/life-data.png' />
 
-## 8.v-show 和 v-if 的区别
+## 8. 父子组件嵌套声明周期
+- 组件的调用顺序都是先父后子,渲染完成的顺序是先子后父。
+- 组件的销毁操作是先父后子，销毁完成的顺序是先子后父。
+- 加载渲染过程：
+  - 父组件 beforeCreate
+  - 父组件 created
+  - 父组件 beforeMount
+  - 子组件 beforeCreate
+  - 子组件 created
+  - 子组件 beforeMount
+  - 子组件 mounted
+  - 父组件 mounted
+- 更新过程：
+  - 父组件 beforeUpdate
+  - 子组件 beforeUpdate
+  - 子组件 updated
+  - 父组件 updated
+- 销毁过程：
+  - 父组件 beforeDestroy
+  - 子组件 beforeDestroy
+  - 子组件 destroyed
+  - 父组件 destoryed
+
+
+## 9.v-show 和 v-if 的区别
 
 - `v-show` 只是切换当前`dom`的显示或者隐藏
 - `v-if` 如果条件不成立不会渲染当前指令所在节点的`dom`元素
@@ -284,7 +308,7 @@ bind (el: any, { value }: VNodeDirective, vnode: VNodeWithData) {
 }
 ```
 
-## 9.v-for 和 v-if
+## 10.v-for 和 v-if
 
 `v-for`比`v-if`的优先级要高，如果连用，给每个属性都添加，造成资源浪费
 
@@ -303,13 +327,13 @@ with(this) {
 console.log(r1.render)
 ```
 
-## 10.组件中的 `data`为什么是一个函数?
+## 11.组件中的 `data`为什么是一个函数?
 
 - 1. 同一个组件被复用多次，会创建多个实例。
 - 2. 这些实例用的是同一个构造函数，如果`data`是一个对象的话。那么所有组件都共享了同一个对象
 - 3. 为了保证组件的数据独立性要求每个组件必须通过`data`函数返回一个对象作为组件的状态。
 
-## 11.`Vue`组件如何通信?
+## 12.`Vue`组件如何通信?
 
 - 1. 父子间通信 父->子通过`props`、子-> 父`$on、$emit`
 - 2. 获取父子组件实例的方式`$parent、$children`
@@ -318,17 +342,17 @@ console.log(r1.render)
 - 5. `Event Bus` 实现跨组件通信
 - 6. `Vuex`状态管理实现通信
 
-## 12. vue中模板编译原理？
+## 13. vue中模板编译原理？
   - 解析阶段：使用大量的正则表达式对template 字符串进行解析，将标签、指令、属性等转化为抽象语法树AST。
   - 优化阶段：遍历AST，找到其中的一些静态节点并进行标记，方便在页面重渲染的时候进行diff 比较时，直接跳过这一些静态节点，优化runtime 的性能。
   - 生成阶段：将最终的AST 转化为render 函数字符串。
 
-## 13. Vue.mixin的使用场景和原理
+## 14. Vue.mixin的使用场景和原理
   - Vue.mixin的作用就是抽离公共的业务逻辑，原理类似”对象的继承“，当组件初始化时会调用mergeOptions方法进行合并，并采用策略模式针对不同的属性进行合并。
   - Mixin的生命周期会在父组件生命周期之前执行，如果混入的数据和本身组件中的数据冲突，会采用”就近原则“以组件的数据为准。
   - mixin中有很多缺陷：”命名冲突“、依赖问题、数据来源问题，这里强调一下mixin的数据是不会被共享的。
 
-## 14. nextTick实现原理
+## 15. nextTick实现原理
 ```js
 let timerFunc // nextTick异步实现fn
 
@@ -377,8 +401,14 @@ if (typeof Promise !== "undefined" && isNative(Promise)) {
   3. nextTick方法会在队列中加入一个回调函数，确保该函数在前面的dom操作完成后才调用；
 - 实现原理
   - 在下次 DOM 更新循环结束之后执行延迟回调，在修改数据之后立即使用 nextTick 来获取更新后的 DOM。 nextTick主要使用了宏任务和微任务。 根据执行环境分别尝试采用Promise、MutationObserver、setImmediate，如果以上都不行则采用setTimeout定义了一个异步方法，多次调用nextTick会将方法存入队列中，通过这个异步方法清空当前队列。
+- 总结
+  - 在同一事件循环中，当所有的同步数据更新执行完毕后，才会调用nextTick
+  - 在同步执行环境中的数据完全更新完毕后，DOM才会开始渲染。
+  - 在同一个事件循环中，若存在多个nextTick，将会按最初的执行顺序进行调用。
+  - 每个异步的回调函数执行后都会存在一个独立的事件循环中，对应自己独立的nextTick
+  - vue DOM的视图更新实现，，使用到了ES6的Promise及HTML5的MutationObserver，当环境不支持时，使用setTimeout(fn, 0)替代。上述的三种方法，均为异步API。其中MutationObserver类似事件，又有所区别；事件是同步触发，其为异步触发，即DOM发生变化之后，不会立刻触发，等当前所有的DOM操作都结束后触发。
 
-## 15.Vue.use()执行原理
+## 16.Vue.use()执行原理
 
 - Vue.use 源码分析
 
@@ -438,7 +468,7 @@ export function toArray(list: any, start?: number): Array<any> {
 - 5.判断`plugin.install`是否是一个方法，如果是，则传入`plugin`及转化后的数组,如果`plugin`本身就是一个方法，则传入转化后的数组，然后执行这个方法,由此可知，Vue.use(插件),实际上就是调用插件的`install`方法，并且调用 use 的时候是可以传入参数的
 - 6.将注册后的插件推进`installedPlugins`，避免重复注册，返回当前实例，代码执行结束。
 
-## 16.Vue 中 key 值的作用
+## 17.Vue 中 key 值的作用
 
 - 1.用于管理可复用的元素。因为 Vue 会尽可能高效地渲染元素，通常会复用已有元素而不是从头开始渲染。这么做使 Vue 编译变得非常快
 
@@ -446,7 +476,7 @@ export function toArray(list: any, start?: number): Array<any> {
 
 - 3.在 diff 算法中，Vue 使用 key 值来判断元素是否发生更改，以达到重复使用页面上所有可复用元素，特别是在列表渲染中，Vue 通过 key 值来判断元素是否需要更新，如果元素只是更换位置的话，就不需要重新渲染，这也是为什么我们在列表渲染的时候为什么始终不建议使用元素的索引值来作为 key 值，因为索引值始终会发生改变，会增加 Vue 的渲染成本
 
-## 17. 路由
+## 18. 路由
   - 创建的页面路由会与该页面形成一个路由表（key value形式，key为该路由，value为对应的页面）
   - vue-router原理是监听 URL 的变化，然后匹配路由规则，会用新路由的页面替换到老的页面 ，无需刷新
   - 目前单页面使用的路由有两种实现方式: hash 模式、history 模式
@@ -455,12 +485,12 @@ export function toArray(list: any, start?: number): Array<any> {
   - history 模式，利用了pushState() 和replaceState() 方法，实现往history中添加新的浏览记录、或替换对应的浏览记录
   - 通过popstate事件来监听路由的变化，window.addEventListener('popstate', （)=>{})
 
-## 18. Keep-alive
+## 19. Keep-alive
 - keep-alive可以实现组件的缓存，当组件切换时不会对当前组件进行卸载,常用的2个属性include/exclude,2个生命周期activated,deactivated
 - 原理：
   Vue.js内部将DOM节点抽象成了一个个的VNode节点，keep-alive组件的缓存也是基于VNode节点的而不是直接存储DOM结构。它将满足条件（pruneCache与pruneCache）的组件在cache对象中缓存起来，在需要重新渲染的时候再将vnode节点从cache对象中取出并渲染。
 
-## 19.Vue中diff算法的原理
+## 20.Vue中diff算法的原理
   - Vue中的diff算法是平级比较，时间复杂度是O(n)，不考虑跨级比较的情况。内部采用深度递归的方式+双指针的方式进行比较。
   - 先同级比较，再比较子节点
   - 先判断一方有儿子没儿子的情况；然后比较都有儿子的情况：先比较是否是相同节点
@@ -469,7 +499,7 @@ export function toArray(list: any, start?: number): Array<any> {
   - 优化比较：头头、尾尾、头尾、尾头
   - 比对查找进行复用
 
-## 20. vuex使用场景
+## 21. vuex使用场景
   - Vuex 是专门为 Vue.js 设计的状态管理库，它采用集中式存储管理应用的所有组件的状态。每一个 Vuex 应用的核心就是 store（仓库）。
   - 把应用的所有组件的状态抽取出来，以一个全局单例模式在应用外部采用集中式存储管理。
   - 原理
@@ -478,7 +508,7 @@ export function toArray(list: any, start?: number): Array<any> {
     - vuexInit方法实现将vuex store注册到当前组件的$store属性上
     - vuex的state作为一个隐藏的vue组件的data，定义在state上面的变量，相当于这个vue实例的data属性，凡是定义在data上的数据都是响应式的
     - 当页面中使用了vuex state中的数据，就是依赖收集的过程，当vuex中state中的数据发生变化，就通过调用对应属性的dep对象的notify方法，去修改视图变化
-## 21. vue3和vue2的区别
+## 22. vue3和vue2的区别
   -  使用proxy取代Object.defineproperty，解决了vue2中新增属性监听不到的问题，同时proxy也支持数组，不需要像vue2那样对数组的方法做拦截处理
   - diff方法优化
     - vue3新增了静态标记（patchflag），虚拟节点对比时，就只会对比这些带有静态标记的节点
@@ -489,13 +519,13 @@ export function toArray(list: any, start?: number): Array<any> {
   - 按需引入，通过treeSharking 体积比vue2.x更小
   - 组合API（类似react hooks），可以将data与对应的逻辑写到一起，更容易理解
   - 更好的Ts支持
-## 22. proxy相比于Object.defineProperty性能的提升有哪些
+## 23. proxy相比于Object.defineProperty性能的提升有哪些
   1. 初始化性能优化：Vue 2 在初始化响应式数据时，会递归遍历对象的所有属性并使用 Object.defineProperty 为每个属性添加 getter 和 setter。这样的初始化过程会产生大量的 getter 和 setter，对于大规模的对象或数据，初始化时间会较长。而在 Vue 3 中，使用 Proxy 对象进行拦截，初始化性能得到了显著提升，因为 Proxy 是在整个对象级别上进行拦截，无需遍历每个属性。
   2. 深层属性监听优化：在 Vue 2 中，对于深层嵌套的属性，需要通过递归方式为每个属性添加响应式处理，这在大型对象上可能会导致性能下降。而在 Vue 3 中，Proxy 可以递归地拦截整个对象的操作，无需为每个属性单独处理，从而提高了深层属性监听的性能。
   3. 删除属性性能优化：在 Vue 2 中，当删除一个属性时，需要通过 Vue.$delete 或者 Vue.delete 方法来触发更新。这是因为 Vue 2 使用的 Object.defineProperty 无法拦截属性的删除操作。而在 Vue 3 中，使用 Proxy 可以直接拦截属性的删除操作，从而简化了删除属性的处理逻辑，并提高了性能。
   4. 动态添加属性性能优化：在 Vue 2 中，动态添加新属性需要通过 Vue.set 方法来触发更新，否则新添加的属性将不会是响应式的。而在 Vue 3 中，Proxy 可以直接拦截动态添加属性的操作，并将其设置为响应式属性，无需额外的处理方法，提高了性能和代码的简洁性。
 - 综上所述，Vue 3 中使用 Proxy 替代了 Vue 2 中的 Object.defineProperty，通过 Proxy 的特性，提供了更好的性能优化和更灵活的响应式处理，尤其在初始化性能、深层属性监听、删除属性和动态添加属性等方面得到了明显的提升。
-## 23. pinia
+## 24. pinia
   pinia其实就是 Vuex5，它和 Vuex 的主要区别有以下几点
   1. Pinia 使用更简单，更符合开发者的开发习惯
   2. pinia中没有了mutations,状态state的修改可以直接进行修改，或者在actions中修改，或者使用它的$patch方法进行修改
@@ -504,7 +534,37 @@ export function toArray(list: any, start?: number): Array<any> {
 
 <a href='https://pinia.vuejs.org/' target='_blank'>pinia</a>
 
-## 24.`Vue`中常见性能优化
+## 25.虚拟dom
+- 什么是虚拟dom？
+  - Virtual DOM是JS模拟真实DOM节点，这个对象就是更加轻量级的对DOM的描述
+- 为什么现在主流的框架都使用虚拟dom?
+  - 前端性能优化的一个秘诀就是尽可能少地操作DOM，频繁变动DOM会造成浏览器的回流或者重绘
+  - 使用虚拟dom，当数据变化，页面需要更新时，通过diff算法，对新旧虚拟dom节点进行对比，比较两棵树的差异，生成差异对象，一次性对DOM进行批量更新操作，进而有效提高了性能
+  - 虚拟 DOM 本质上是 js 对象，而 DOM 与平台强相关，相比之下虚拟 DOM 可以进行更方便的跨平台操作，例如服务器渲染、weex 开发等等
+
+## 26.为什么vue只有一个根元素
+- 这是因为Vue组件的渲染是通过模板编译来实现的，模板编译器需要将模板编译成一个render函数，这个函数需要返回一个虚拟DOM树。而虚拟DOM树是通过一个根节点来包裹所有子元素的
+- 如果一个组件有多个根元素，那么在编译模板时，Vue就无法确定哪个元素应该作为根节点，这会导致编译错误
+
+## 27. vue长列表优化
+- 懒加载
+  - 原理：每次只渲染一部分，等渲染的数据即将滚动完时，再渲染下面部分
+  - 优点：每次渲染一部分数据，速度快
+  - 缺点：数据量大时，页面中依然存在大量DOM节点，占用内存过多，降低浏览器渲染性能，导致页面卡顿
+  - 使用场景：数据量不大的情况下（比如1000条，具体还要看每条数据的复杂程度）
+- 分页渲染
+  - 一般是后端给我们数据，我们只需把页码数，每页展示的数据量，给后端，后端给我们数据我们进行展示即可。
+- 可视区渲染
+  <a href='https://blog.csdn.net/qq_36380426/article/details/120897686' target='_black'>https://blog.csdn.net/qq_36380426/article/details/120897686</a>
+
+## 28. vue3相关
+  <p> <a href='https://juejin.cn/post/7139921537896808479' target='_black'>Vue3.0面试题汇总</a></p>
+  
+## 29.`Vue`中常见性能优化
+
+<p><a href='https://segmentfault.com/a/1190000038224642' target='_black'>双十一SSR优化实践：秒开率提升新高度</a></p>
+<p><a href='https://heapdump.cn/article/3676881#/article/3676881' target='_black'>通过优化HTML来实现得物H5秒开！</a></p>
+<p><a href='https://zhuanlan.zhihu.com/p/577513919' target='_black'>秒开率70%+，携程金融SSR应用性能监测与优化</a></p>
 
 ### 1.编码优化
 

@@ -107,9 +107,19 @@ webpack中最重要的类Compiler和Compilation都继承自Tapable,也拥有这�
 - happypack: 使用多进程，加速代码构建；
 - EnvironmentPlugin: 定义环境变量；
 
-
-作者：郭东东<br />
 链接：<a href='https://juejin.im/post/5cc26dfef265da037b611738' target="_blank">https://juejin.im/post/5cc26dfef265da037b611738</a>
+
+## 4. 热更新
+### 1.什么是 webpack 热更新？
+- 开发过程中，代码发生变动后，webpack 会重新编译，编译后浏览器替换修改的模块，局部更新，无需刷新整个页面
+- 好处：节省开发时间、提升开发体验
+### 2.热更新原理
+主要是通过websocket实现，建立本地服务和浏览器的双向通信。当代码变化，重新编译后，通知浏览器请求更新的模块，替换原有的模块
+- 通过webpack-dev-server开启server服务，本地 server 启动之后，再去启动 websocket 服务，建立本地服务和浏览器的双向通信
+- webpack 每次编译后，会生成一个Hash值，Hash 代表每一次编译的标识。本次输出的 Hash 值会编译新生成的文件标识，被作为下次热更新的标识
+- webpack监听文件变化（主要是通过文件的生成时间判断是否有变化），当文件变化后，重新编译
+- 编译结束后，通知浏览器请求变化的资源，同时将新生成的 hash 值传给浏览器，用于下次热更新使用
+- 浏览器拿到更新后的模块后，用新模块替换掉旧的模块，从而实现了局部刷新
 
 # vite
 ## vite原理

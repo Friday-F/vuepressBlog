@@ -318,3 +318,12 @@
         transform-origin: left top ;
       }
     ```
+## 7. link style @import及三者的区别
+  - 加载顺序的差别
+    - 当一个页面被加载的时候，link引用的CSS会同时被加载
+    - 而@import引用的CSS会等到页面全部被下载完再被加载
+    - 有时候浏览用@import加载CSS的页面时，可能会出现闪烁的情况
+  - 加载内容的区别
+    - @import只能导入样式文件
+    - link不仅可以引入样式，还可以引入js文件
+    - style标签，它是定义在当前页面的样式
